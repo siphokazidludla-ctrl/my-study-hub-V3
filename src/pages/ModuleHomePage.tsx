@@ -23,6 +23,7 @@ export default function ModuleHomePage() {
       <LinkCard to={`/${id}/past-papers`} title="Past Paper Intelligence" eyebrow="Exam patterns" text="Question types, command words and answer strategies." tags={['Open-book']} />
       <LinkCard to={`/${id}/exam-builder`} title="Exam Answer Builder" eyebrow="Writing tool" text="Build a postgraduate answer structure from command word, theory and case evidence." tags={['Scaffold']} />
       <LinkCard to={`/${id}/paragraph-bank`} title="Paragraph Bank" eyebrow="Templates" text="Reusable academic paragraphs for introductions, theory, application and evaluation." tags={['Writing']} />
+      {id === 'om' && <LinkCard to={`/${id}/formulas`} title="OM Formula Dashboard" eyebrow="Calculations & examples" text="All key OM formulas, worked examples and calculator sheet in one place." tags={['Formulas','Calculator']} />}
     </div>
     <Card title="Source rule" tone="gold">
       <p>Module guide content is treated as the source of truth. Textbooks support explanation. Any unverified academic extension is labelled for verification.</p>

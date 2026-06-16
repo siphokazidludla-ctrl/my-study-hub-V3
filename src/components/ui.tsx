@@ -44,6 +44,17 @@ export function Input({ value, onChange, placeholder }: { value: string; onChang
   return <input value={value} onChange={(e)=>onChange(e.target.value)} placeholder={placeholder} className="w-full rounded-full border border-[#D9D2EC] bg-white px-4 py-2 text-sm outline-none focus:border-[#C9A24B] focus:ring-2 focus:ring-[#FBF7EC]" />;
 }
 
+export function Select({ value, onChange, options, allLabel }: { value: string; onChange: (value: string)=>void; options: { value: string; label: string }[]; allLabel?: string }) {
+  return (
+    <select value={value} onChange={(e)=>onChange(e.target.value)} className="w-full rounded-full border border-[#D9D2EC] bg-white px-4 py-2 text-sm outline-none focus:border-[#C9A24B] focus:ring-2 focus:ring-[#FBF7EC]">
+      {allLabel !== undefined && <option value="">{allLabel}</option>}
+      {options.map((option) => (
+        <option key={option.value} value={option.value}>{option.label}</option>
+      ))}
+    </select>
+  );
+}
+
 export function SourceTag({ refs }: { refs: string[] }) {
   return <div className="flex flex-wrap gap-1">{refs.map((r) => <Badge key={r} tone="gold">{r}</Badge>)}</div>;
 }
