@@ -47,8 +47,11 @@ export default function App() {
         <Route path="/:moduleId/formulas" element={<FormulasPage />} />
         <Route path="/:moduleId/formulas/:formulaId" element={<FormulaDetailPage />} />
         <Route path="/:moduleId/formula-library" element={<FormulaLibraryPage />} />
+        <Route path="/:moduleId/formula-library/:formulaId" element={<FormulaDetailPage />} />
         <Route path="/:moduleId/applied-calculations" element={<AppliedCalculationsPage />} />
+        <Route path="/:moduleId/applied-calculations/:formulaId" element={<AppliedCalculationsPage />} />
         <Route path="/:moduleId/calculators" element={<CalculatorHubPage />} />
+        <Route path="/:moduleId/calculators/:formulaId" element={<CalculatorHubPage />} />
         <Route path="/:moduleId/question-classifier" element={<QuestionClassifierPage />} />
         <Route path="/:moduleId/mistake-log" element={<MistakeLogPage />} />
         <Route path="/:moduleId/paragraph-bank" element={<ParagraphBankPage />} />
