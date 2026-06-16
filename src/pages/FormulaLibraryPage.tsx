@@ -1,18 +1,21 @@
 import { useMemo, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { LinkCard, PageHeading, Input, Badge, Card, BulletList } from '../components/ui';
+import { Link } from 'react-router-dom';
+import { PageHeading, Input, Badge, Card, BulletList } from '../components/ui';
 import { useModule } from './helpers';
 import { FORMULAS } from '../data/formulas';
 import { OM_UNITS } from '../data/omUnits';
 import { OM_FORMULAS } from '../data/modules/om';
+import { useFeatureAccess, usePlan } from '../hooks/useFeatureAccess';
+import Paywall from '../components/auth/Paywall';
 
-const CATEGORIES = ['All', 'Inventory Management', 'Forecasting', 'Operations Foundations', 'Capacity Planning'];
+const FREE_FORMULA_LIMIT = 3;
 
 export default function FormulaLibraryPage() {
   const { id, module } = useModule();
-  const navigate = useNavigate();
   const [query, setQuery] = useState('');
   const [category, setCategory] = useState('All');
+  const { canAccess, needsUpgrade } = useFeatureAccess('formula_library', id);
+  const { isFree, isPremium, isAuthenticated } = usePlan();
 
   const omFormulas = id === 'om' ? OM_FORMULAS : FORMULAS;
 
@@ -32,6 +35,10 @@ export default function FormulaLibraryPage() {
     return ['All', ...Array.from(cats)];
   }, [omFormulas]);
 
+  // For free users, show only first N formulas
+  const displayedFormulas = isFree ? filtered.slice(0, FREE_FORMULA_LIMIT) : filtered;
+  const hiddenCount = isFree ? Math.max(0, filtered.length - FREE_FORMULA_LIMIT) : 0;
+
   return (
     <div className="space-y-5">
       <PageHeading
@@ -39,6 +46,25 @@ export default function FormulaLibraryPage() {
         title="Formula cards, units and calculator links"
         sub="Find each OM formula, explore the linked unit and concept, and jump straight to a worked example or calculator."
       />
+
+      {isFree && !isAuthenticated && (
+        <div className="rounded-lg border border-amber-200 bg-amber-50 p-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="font-medium text-amber-800">Free plan: {FREE_FORMULA_LIMIT} formulas preview</p>
+              <p className="text-sm text-amber-700 mt-1">Sign up for free to access more, or upgrade for full access.</p>
+            </div>
+            <div className="flex gap-2">
+              <Link to="/sign-up" className="rounded-full bg-[#3B1D6E] px-4 py-2 text-sm font-bold text-white hover:bg-[#2d1654]">
+                Sign up free
+              </Link>
+              <Link to="/pricing" className="rounded-full border border-amber-300 bg-white px-4 py-2 text-sm font-bold text-amber-700 hover:bg-amber-100">
+                View plans
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
 
       <Card title="Search and filter formulas" tone="white">
         <div className="space-y-4">
@@ -62,7 +88,7 @@ export default function FormulaLibraryPage() {
       </Card>
 
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-        {filtered.map((formula) => {
+        {displayedFormulas.map((formula) => {
           const unit = OM_UNITS.find((u) => u.id === formula.unitId);
           const description = 'description' in formula ? formula.description : formula.plainMeaning;
           return (
@@ -106,6 +132,14 @@ export default function FormulaLibraryPage() {
           );
         })}
       </div>
+
+      {hiddenCount > 0 && (
+        <Paywall
+          featureName={`${hiddenCount} more formulas`}
+          description={`Unlock all ${filtered.length} formulas with a premium plan.`}
+          requiredPlan="om_monthly"
+        />
+      )}
 
       {filtered.length === 0 && (
         <Card title="No results" tone="gold">

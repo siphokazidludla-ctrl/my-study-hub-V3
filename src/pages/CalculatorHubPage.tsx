@@ -4,6 +4,9 @@ import { Card, PageHeading, Input, Badge, BulletList } from '../components/ui';
 import { useModule } from './helpers';
 import { FORMULAS } from '../data/formulas';
 import { OM_FORMULAS, getOMWorkedExampleByFormula } from '../data/modules/om';
+import { useFeatureAccess, usePlan } from '../hooks/useFeatureAccess';
+import Paywall from '../components/auth/Paywall';
+import UpgradePrompt from '../components/auth/UpgradePrompt';
 
 type CalculatorState = {
   formulaId: string;
@@ -265,6 +268,8 @@ export default function CalculatorHubPage() {
   const { id, module } = useModule();
   const { formulaId } = useParams();
   const [query, setQuery] = useState('');
+  const { canAccess, needsUpgrade } = useFeatureAccess('calculators', id);
+  const { isFree, isPremium, isAuthenticated } = usePlan();
 
   const omFormulas = id === 'om' ? OM_FORMULAS : FORMULAS;
 
@@ -279,6 +284,10 @@ export default function CalculatorHubPage() {
 
   const selectedFormula = formulaId ? omFormulas.find((f) => f.id === formulaId) : undefined;
 
+  // Free users can only use EOQ calculator
+  const freeCalculator = 'eoq';
+  const isPremiumCalculator = formulaId && formulaId !== freeCalculator;
+
   return (
     <div className="space-y-5">
       <PageHeading kicker={`${module.code} Calculator Hub`} title={selectedFormula ? `${selectedFormula.name} Calculator` : 'Calculator hub'} sub="Fast access to OM calculation tools with step-by-step guidance." />
@@ -287,6 +296,20 @@ export default function CalculatorHubPage() {
         <Link to={`/${id}/calculators`} className="text-sm font-medium text-[#3B1D6E] hover:underline">
           ← Back to all calculators
         </Link>
+      )}
+
+      {isFree && (
+        <div className="rounded-lg border border-amber-200 bg-amber-50 p-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="font-medium text-amber-800">Free plan: EOQ calculator preview</p>
+              <p className="text-sm text-amber-700 mt-1">Upgrade to unlock all calculators.</p>
+            </div>
+            <Link to="/pricing" className="rounded-full border border-amber-300 bg-white px-4 py-2 text-sm font-bold text-amber-700 hover:bg-amber-100">
+              View plans
+            </Link>
+          </div>
+        </div>
       )}
 
       {formulaId === 'eoq' && !selectedFormula && (
@@ -301,7 +324,7 @@ export default function CalculatorHubPage() {
           <Card title="EOQ Formula">
             <div className="space-y-3">
               <div className="rounded-lg bg-slate-50 p-3 font-mono">
-                EOQ = √((2 × D × S) ÷ H)
+                EOQ = sqrt((2 x D x S) / H)
               </div>
               <div className="text-sm text-slate-600">
                 <p><strong>D</strong> = Annual demand (units/year)</p>
@@ -309,77 +332,85 @@ export default function CalculatorHubPage() {
                 <p><strong>H</strong> = Holding cost per unit per year (R)</p>
               </div>
               <Link to={`/${id}/formulas/eoq`} className="block text-sm text-[#3B1D6E] hover:underline">
-                View formula details →
+                View formula details
               </Link>
             </div>
           </Card>
         </div>
       )}
 
-      {formulaId === 'productivity' && (
+      {formulaId === 'productivity' && (isPremium ? (
         <div className="grid gap-6 lg:grid-cols-[1.5fr_1fr]">
           <ProductivityCalculator />
           <Card title="Productivity Formula">
             <div className="space-y-3">
               <div className="rounded-lg bg-slate-50 p-3 font-mono">
-                Productivity = Output ÷ Input
+                Productivity = Output / Input
               </div>
               <Link to={`/${id}/formulas/productivity`} className="block text-sm text-[#3B1D6E] hover:underline">
-                View formula details →
+                View formula details
               </Link>
             </div>
           </Card>
         </div>
-      )}
+      ) : (
+        <UpgradePrompt currentPlan="free" requiredPlan="om_monthly" featureName="Productivity Calculator" />
+      ))}
 
-      {formulaId === 'utilisation' && (
+      {formulaId === 'utilisation' && (isPremium ? (
         <div className="grid gap-6 lg:grid-cols-[1.5fr_1fr]">
           <CapacityCalculator />
           <Card title="Utilisation & Efficiency">
             <div className="space-y-3">
               <div className="rounded-lg bg-slate-50 p-3 font-mono text-sm">
-                Utilisation = (Actual ÷ Design) × 100%<br/>
-                Efficiency = (Actual ÷ Effective) × 100%
+                Utilisation = (Actual / Design) x 100%<br/>
+                Efficiency = (Actual / Effective) x 100%
               </div>
               <Link to={`/${id}/formulas/utilisation`} className="block text-sm text-[#3B1D6E] hover:underline">
-                View formula details →
+                View formula details
               </Link>
             </div>
           </Card>
         </div>
-      )}
+      ) : (
+        <UpgradePrompt currentPlan="free" requiredPlan="om_monthly" featureName="Capacity Calculator" />
+      ))}
 
-      {formulaId === 'mad' && (
+      {formulaId === 'mad' && (isPremium ? (
         <div className="grid gap-6 lg:grid-cols-[1.5fr_1fr]">
           <MADCalculator />
           <Card title="MAD Formula">
             <div className="space-y-3">
               <div className="rounded-lg bg-slate-50 p-3 font-mono text-sm">
-                MAD = Σ|Actual − Forecast| ÷ n
+                MAD = Sum|Actual - Forecast| / n
               </div>
               <Link to={`/${id}/formulas/mad`} className="block text-sm text-[#3B1D6E] hover:underline">
-                View formula details →
+                View formula details
               </Link>
             </div>
           </Card>
         </div>
-      )}
+      ) : (
+        <UpgradePrompt currentPlan="free" requiredPlan="om_monthly" featureName="MAD Calculator" />
+      ))}
 
-      {formulaId === 'rop' && (
+      {formulaId === 'rop' && (isPremium ? (
         <div className="grid gap-6 lg:grid-cols-[1.5fr_1fr]">
           <ROPCalculator />
           <Card title="ROP Formula">
             <div className="space-y-3">
               <div className="rounded-lg bg-slate-50 p-3 font-mono text-sm">
-                ROP = (Daily demand × Lead time) + Safety stock
+                ROP = (Daily demand x Lead time) + Safety stock
               </div>
               <Link to={`/${id}/formulas/rop`} className="block text-sm text-[#3B1D6E] hover:underline">
-                View formula details →
+                View formula details
               </Link>
             </div>
           </Card>
         </div>
-      )}
+      ) : (
+        <UpgradePrompt currentPlan="free" requiredPlan="om_monthly" featureName="ROP Calculator" />
+      ))}
 
       {!formulaId && (
         <>
@@ -388,22 +419,27 @@ export default function CalculatorHubPage() {
               <Link to={`/${id}/calculators/eoq`} className="rounded-lg border border-slate-200 p-4 hover:border-[#3B1D6E] hover:bg-slate-50">
                 <h3 className="font-semibold">EOQ Calculator</h3>
                 <p className="text-sm text-slate-600">Economic Order Quantity</p>
+                <div className="mt-2"><Badge>Free</Badge></div>
               </Link>
-              <Link to={`/${id}/calculators/productivity`} className="rounded-lg border border-slate-200 p-4 hover:border-[#3B1D6E] hover:bg-slate-50">
+              <Link to={`/${id}/calculators/productivity`} className="rounded-lg border border-slate-200 p-4 hover:border-[#3B1D6E] hover:bg-slate-50 relative">
                 <h3 className="font-semibold">Productivity Calculator</h3>
                 <p className="text-sm text-slate-600">Output/Input ratio</p>
+                {isFree && <div className="mt-2"><Badge tone="gold">Premium</Badge></div>}
               </Link>
-              <Link to={`/${id}/calculators/utilisation`} className="rounded-lg border border-slate-200 p-4 hover:border-[#3B1D6E] hover:bg-slate-50">
+              <Link to={`/${id}/calculators/utilisation`} className="rounded-lg border border-slate-200 p-4 hover:border-[#3B1D6E] hover:bg-slate-50 relative">
                 <h3 className="font-semibold">Capacity Calculator</h3>
                 <p className="text-sm text-slate-600">Utilisation & Efficiency</p>
+                {isFree && <div className="mt-2"><Badge tone="gold">Premium</Badge></div>}
               </Link>
-              <Link to={`/${id}/calculators/mad`} className="rounded-lg border border-slate-200 p-4 hover:border-[#3B1D6E] hover:bg-slate-50">
+              <Link to={`/${id}/calculators/mad`} className="rounded-lg border border-slate-200 p-4 hover:border-[#3B1D6E] hover:bg-slate-50 relative">
                 <h3 className="font-semibold">MAD Calculator</h3>
                 <p className="text-sm text-slate-600">Forecast accuracy</p>
+                {isFree && <div className="mt-2"><Badge tone="gold">Premium</Badge></div>}
               </Link>
-              <Link to={`/${id}/calculators/rop`} className="rounded-lg border border-slate-200 p-4 hover:border-[#3B1D6E] hover:bg-slate-50">
+              <Link to={`/${id}/calculators/rop`} className="rounded-lg border border-slate-200 p-4 hover:border-[#3B1D6E] hover:bg-slate-50 relative">
                 <h3 className="font-semibold">ROP Calculator</h3>
                 <p className="text-sm text-slate-600">Reorder Point</p>
+                {isFree && <div className="mt-2"><Badge tone="gold">Premium</Badge></div>}
               </Link>
             </div>
           </Card>
