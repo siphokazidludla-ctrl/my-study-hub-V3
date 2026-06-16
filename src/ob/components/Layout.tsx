@@ -1,6 +1,7 @@
 import { useState, type ReactNode } from "react";
 import { Link, useLocation, Outlet } from "react-router-dom";
 import { SearchBox, Badge } from "./ui";
+import { MODULES } from "../../data";
 import { theories, units, hubs, theoryMatchesSearch } from "../data";
 
 type NavLink = { to: string; label: string; short: string; icon: string };
