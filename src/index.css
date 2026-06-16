@@ -1,0 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root { color-scheme: light; }
+body { margin: 0; background: #F5F5F7; color: #241349; font-family: Inter, system-ui, sans-serif; }
+a { color: inherit; }

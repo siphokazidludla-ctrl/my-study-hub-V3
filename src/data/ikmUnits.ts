@@ -1,0 +1,285 @@
+import type { Unit } from '../types';
+
+// Information and Knowledge Management (IKM) - 10 units.
+// Structure, subsection headings and learning-outcome wording taken from the
+// MANCOSA IKM Module Guide (2026). Assessment weighting is informed by the
+// uploaded IKM past examination papers (MANCOSA IKM Past Examination Papers).
+
+export const IKM_UNITS: Unit[] = [
+  {
+    id: 'ikm-1',
+    number: 1,
+    title: 'Information Systems in the Artificial Intelligence-Driven Business',
+    plain:
+      'How computer systems stopped being "back-office data stores" and became the engine of strategy. Like moving from a paper patient file to a connected electronic health record that predicts and recommends.',
+    outcomes: [
+      { code: 'LO1.1', text: 'Analyse the evolution of information systems, particularly the influence of Artificial Intelligence (AI) and digital transformation.' },
+      { code: 'LO1.2', text: 'Evaluate the roles of AI, cloud computing and edge computing in contemporary business environments.' },
+      { code: 'LO1.3', text: 'Distinguish between data, information, knowledge and wisdom (DIKW) as reshaped in the AI era.' },
+      { code: 'LO1.4', text: 'Assess the strategic business objectives that information systems are designed to achieve.' },
+    ],
+    contents: [
+      '1.1 Introduction',
+      '1.2 Modern Trends in Information Systems',
+      '1.3 AI and Cloud Computing in Business: A Powerful Synergy',
+      '1.4 Data, Information, Knowledge, and Wisdom (DIKW) in the AI Era',
+      '1.5 Strategic Business Objectives of Information Systems',
+      '1.6 Summary',
+    ],
+    keyConcepts: ['DIKW hierarchy', 'Strategic business objectives of IS', 'Cloud-native and edge computing', 'Dimensions of an information system', 'AI in business'],
+    assessmentWeight: 5,
+    assessmentNote:
+      'High frequency. "Strategic business objectives of information systems" and "dimensions of an information system" recur verbatim in past papers, usually with Assess, Explain or Justify.',
+    theoryIds: ['ikm-dikw', 'ikm-strategic-objectives', 'ikm-is-dimensions'],
+    prescribedChapters: 'Laudon and Laudon (2023), Ch. 1-2',
+  },
+  {
+    id: 'ikm-2',
+    number: 2,
+    title: 'Digital Business Ecosystems',
+    plain:
+      'How modern organisations no longer work alone but plug into networks of partners, platforms and apps, the way a hospital connects to labs, pharmacies, medical aids and booking apps.',
+    outcomes: [
+      { code: 'LO2.1', text: 'Examine modern digital business models and platform-based value creation.' },
+      { code: 'LO2.2', text: 'Explain API ecosystems and integration platforms.' },
+      { code: 'LO2.3', text: 'Discuss ethical considerations, decolonising digital business and digital inclusion (linking to SDG 10).' },
+    ],
+    contents: [
+      '2.1 Introduction',
+      '2.2 Modern Digital Business Models',
+      '2.3 API Ecosystems and Integration Platforms',
+      '2.4 Social Media and Mobile Technologies: Integral Components',
+      '2.5 Ethical Considerations in Digital Business',
+      '2.6 Decolonising Digital Business Ecosystems: A Critical Perspective',
+      '2.7 Digital Inclusion and Reduced Inequalities (Linking to SDG 10)',
+      '2.8 Summary',
+    ],
+    keyConcepts: ['Platform business models', 'API ecosystems', 'Network effects', 'Digital inclusion / SDG 10', 'Internet impact on competitive forces'],
+    assessmentWeight: 4,
+    assessmentNote:
+      '"Impact of the Internet on competitive forces and industry structure" appears repeatedly (Discuss). Often paired with Porter-style analysis.',
+    theoryIds: ['ikm-platform', 'ikm-internet-competitive-forces'],
+    prescribedChapters: 'Laudon and Laudon (2023), Ch. 3, 10',
+  },
+  {
+    id: 'ikm-3',
+    number: 3,
+    title: 'Information, Knowledge and Organisational Learning',
+    plain:
+      'The difference between raw facts and real understanding, and how organisations learn as a whole, not just as individuals. Like how a clinical team builds shared protocols that outlive any one nurse.',
+    outcomes: [
+      { code: 'LO3.1', text: 'Explain the knowledge hierarchy from data to wisdom.' },
+      { code: 'LO3.2', text: 'Criticise the dynamics of knowledge and the strategic role of knowledge management.' },
+      { code: 'LO3.3', text: 'Differentiate between organisational learning and the learning organisation and link them to competitive advantage.' },
+      { code: 'LO3.4', text: 'Apply models and frameworks for knowledge creation and sharing (including SECI).' },
+    ],
+    contents: [
+      '3.1 Introduction',
+      '3.2 From Data to Wisdom: The Knowledge Hierarchy',
+      '3.3 The Strategic Role of Knowledge Management (KM)',
+      '3.4 Organisational Learning (OL)',
+      '3.5 Models and Frameworks for Knowledge Creation and Sharing',
+      '3.6 Impact of Culture, Leadership and Technology on Knowledge Management',
+      '3.7 Challenges and Best Practices in Knowledge Management and Organisational Learning',
+      '3.8 Summary',
+    ],
+    keyConcepts: ['Tacit vs explicit knowledge', 'SECI model (Nonaka & Takeuchi)', 'Organisational learning vs learning organisation', 'Organisational knowledge', 'Knowledge-sharing culture'],
+    assessmentWeight: 5,
+    assessmentNote:
+      'Very high. "Concept of organisational knowledge", "organisational culture and knowledge management" (Toyota) and OL vs learning organisation are recurrent Discuss questions.',
+    theoryIds: ['ikm-seci', 'ikm-ol-vs-lo', 'ikm-tacit-explicit'],
+    prescribedChapters: 'Dalkir (2022); Hislop, Bosua and Helms (2023)',
+  },
+  {
+    id: 'ikm-4',
+    number: 4,
+    title: 'Information Governance, Security and Ethical Considerations in the AI Era',
+    plain:
+      'How organisations keep information safe, lawful and ethical, the business equivalent of patient confidentiality, consent and safe record-keeping (POPIA in South Africa).',
+    outcomes: [
+      { code: 'LO4.1', text: 'Examine information governance and compliance frameworks.' },
+      { code: 'LO4.2', text: 'Explain information security fundamentals, including the CIA triad.' },
+      { code: 'LO4.3', text: 'Evaluate ethics and governance in the age of Artificial Intelligence.' },
+      { code: 'LO4.4', text: 'Recommend strategies for ethical and secure practices.' },
+    ],
+    contents: [
+      '4.1 Introduction',
+      '4.2 Information Governance and Compliance',
+      '4.3 Information Security Fundamentals',
+      '4.4 Ethics in the Age of Artificial Intelligence',
+      '4.5 AI Governance and Regulation',
+      '4.6 Strategies for Ethical and Secure Practices',
+      '4.7 Summary',
+    ],
+    keyConcepts: ['CIA triad (confidentiality, integrity, availability)', 'Information governance', 'POPIA / GDPR / CCPA', 'AI ethics & black-box problem', 'System availability measures'],
+    assessmentWeight: 4,
+    assessmentNote:
+      'Security recurs through the Smart Cities case: "measures to ensure system availability", "vulnerabilities of the interconnected world", wireless protection. Usually Discuss / Explain.',
+    theoryIds: ['ikm-cia-triad', 'ikm-info-governance'],
+    prescribedChapters: 'Saffady (2021); Laudon and Laudon (2023), Ch. 8',
+  },
+  {
+    id: 'ikm-5',
+    number: 5,
+    title: 'Knowledge Management Systems and Technologies',
+    plain:
+      'The actual tools, repositories, expert systems, AI assistants, that capture and share know-how across an organisation.',
+    outcomes: [
+      { code: 'LO5.1', text: 'Examine the knowledge management technology landscape.' },
+      { code: 'LO5.2', text: 'Compare the types and functions of knowledge management systems.' },
+      { code: 'LO5.3', text: 'Evaluate AI and KMS integration and adoption challenges.' },
+      { code: 'LO5.4', text: 'Design a basic knowledge management system framework.' },
+    ],
+    contents: [
+      '5.1 Introduction',
+      '5.2 Knowledge Management Technology Landscape',
+      '5.3 Types and Functions of Knowledge Management Systems',
+      '5.4 Artificial Intelligence and Knowledge Management System Integration',
+      '5.5 Knowledge Management System Adoption and Implementation Challenges',
+      '5.6 Designing a basic Knowledge Management System Framework',
+      '5.7 Summary',
+    ],
+    keyConcepts: ['Knowledge repositories', 'Expert systems & inference engines', 'KMS adoption challenges', 'Cloud-based KMS', 'DBMS vs traditional file systems'],
+    assessmentWeight: 5,
+    assessmentNote:
+      'High. "Challenges of implementing a KMS and possible solutions" and "cloud-based KMS features" are direct past-paper questions (Report / Analyse). DBMS capabilities also appear.',
+    theoryIds: ['ikm-kms-types', 'ikm-kms-challenges'],
+    prescribedChapters: 'Laudon and Laudon (2023), Ch. 11-12; Wahl (2024)',
+  },
+  {
+    id: 'ikm-6',
+    number: 6,
+    title: 'Developing and Implementing a Knowledge Management Strategy',
+    plain:
+      'Turning good intentions about sharing knowledge into a real plan, with culture, leadership, change management and ways to measure success.',
+    outcomes: [
+      { code: 'LO6.1', text: 'Explain the components and lifecycle of a knowledge management strategy.' },
+      { code: 'LO6.2', text: 'Discuss building a knowledge-sharing culture and the role of leadership.' },
+      { code: 'LO6.3', text: 'Apply change management to KM implementation.' },
+      { code: 'LO6.4', text: 'Measure KM impact (including the Balanced Scorecard) and design an implementation roadmap.' },
+    ],
+    contents: [
+      '6.1 Introduction',
+      '6.2 Knowledge Management Strategy Components and Lifecycle',
+      '6.3 Building a Knowledge-Sharing Culture',
+      '6.4 Leadership in Knowledge Management Implementation',
+      '6.5 Change Management for Knowledge Management',
+      '6.6 Measuring Knowledge Management Impact',
+      '6.7 Designing a Knowledge Management Implementation Roadmap',
+      '6.8 Summary',
+    ],
+    keyConcepts: ['KM strategy lifecycle', 'Knowledge-sharing culture', 'Change management', 'Balanced Scorecard (measuring KM)', 'Strategic objectives for KM investment'],
+    assessmentWeight: 5,
+    assessmentNote:
+      'High. The Balanced Scorecard ("purpose of applying the BSC and how you would apply it to Woolworths") is a flagged past-paper question. Strategic KM-investment objectives also appear.',
+    theoryIds: ['ikm-bsc', 'ikm-km-strategy'],
+    prescribedChapters: 'Dalkir (2022); MANCOSA IKM Module Guide (2026), Unit 6',
+  },
+  {
+    id: 'ikm-7',
+    number: 7,
+    title: 'Future Trends in Information and Knowledge Management',
+    plain:
+      'What is coming next, intelligent enterprises, the changing role of the knowledge worker, and the ethical and decolonial questions that follow.',
+    outcomes: [
+      { code: 'LO7.1', text: 'Examine emerging IKM technologies.' },
+      { code: 'LO7.2', text: 'Discuss the future knowledge worker and the intelligent enterprise.' },
+      { code: 'LO7.3', text: 'Evaluate ethical, societal and decolonial trends and strategic preparedness.' },
+    ],
+    contents: [
+      '7.1 Introduction',
+      '7.2 Emerging Information and Knowledge Management Technologies',
+      '7.3 The Future Knowledge Worker',
+      '7.4 Intelligent Enterprises and Knowledge Culture',
+      '7.5 Ethical, Societal and Decolonial Trends',
+      '7.6 Strategic Preparedness for the IKM Future',
+      '7.7 Summary',
+    ],
+    keyConcepts: ['Intelligent enterprise', 'Future knowledge worker', 'Decolonial perspectives in KM', 'Strategic preparedness'],
+    assessmentWeight: 3,
+    assessmentNote: 'Medium. Often integrated into case-based Section A questions on emerging technology (ChatGPT, big data, smart cities).',
+    theoryIds: ['ikm-intelligent-enterprise'],
+    prescribedChapters: 'Wahl (2024); MANCOSA IKM Module Guide (2026), Unit 7',
+  },
+  {
+    id: 'ikm-8',
+    number: 8,
+    title: 'Strategic IKM Application: Case Studies, Consulting and Capstone',
+    plain:
+      'Putting it all together, reading a real organisation, diagnosing its knowledge problems, and proposing a strategy like a consultant would.',
+    outcomes: [
+      { code: 'LO8.1', text: 'Analyse real-world IKM case studies.' },
+      { code: 'LO8.2', text: 'Explain the role of IKM consultants.' },
+      { code: 'LO8.3', text: 'Apply theory to a capstone strategy proposal.' },
+    ],
+    contents: [
+      '8.1 Introduction',
+      '8.2 Real-World Information and Knowledge Management Case Studies',
+      '8.3 The Role of Information and Knowledge Management Consultants',
+      '8.4 Capstone Strategy Proposal',
+      '8.5 Translating Theory into Practice',
+      '8.6 Career Pathways in Information and Knowledge Management',
+      '8.7 Summary',
+    ],
+    keyConcepts: ['Case analysis method', 'IKM consulting', 'Capstone strategy proposal', 'Theory-to-practice translation'],
+    assessmentWeight: 4,
+    assessmentNote: 'High in format terms: Section A is always a case extract with applied Critically evaluate / Recommend / Report questions.',
+    theoryIds: [],
+    prescribedChapters: 'MANCOSA IKM Module Guide (2026), Unit 8',
+  },
+  {
+    id: 'ikm-9',
+    number: 9,
+    title: 'IKM for Organisational Agility, Resilience and Continuous Innovation',
+    plain:
+      'How sharing knowledge fast helps an organisation sense change, respond, recover from crises and keep innovating, the business version of a resilient, learning health system.',
+    outcomes: [
+      { code: 'LO9.1', text: 'Explain agility and resilience through IKM.' },
+      { code: 'LO9.2', text: 'Discuss sensing-and-responding, rapid knowledge mobilisation and business process management.' },
+      { code: 'LO9.3', text: 'Evaluate continuous innovation, crisis management and cultural/leadership enablers.' },
+    ],
+    contents: [
+      '9.1 Introduction',
+      '9.2 Agility and Resilience through IKM',
+      '9.3 Sensing and Responding via IKM',
+      '9.4 Business Process Management',
+      '9.5 Learning Organisation Culture',
+      '9.6 Continuous Innovation through IKM',
+      '9.7 Crisis Management and Continuity via IKM',
+      '9.8 Cultural and Leadership Enablers',
+      '9.9 Summary',
+    ],
+    keyConcepts: ['Business Process Management (BPM)', 'Business Process Re-engineering (BPR)', 'Six Sigma (DMAIC/DMADV)', 'Organisational agility & resilience', 'Crisis management'],
+    assessmentWeight: 5,
+    assessmentNote:
+      'High. The BPR / BPM / Six Sigma case is a full 100-mark past paper (DMAIC vs DMADV, BPR vs BPM, success factors and failure rate). Heavily examined with Explain / Elaborate / Discuss.',
+    theoryIds: ['ikm-bpr', 'ikm-bpm', 'ikm-six-sigma'],
+    prescribedChapters: 'MANCOSA IKM Module Guide (2026), Unit 9',
+  },
+  {
+    id: 'ikm-10',
+    number: 10,
+    title: 'Leadership and Ethical Stewardship in the Knowledge-Driven Organisation',
+    plain:
+      'Leading people, not just systems: building ethical knowledge cultures and using AI responsibly.',
+    outcomes: [
+      { code: 'LO10.1', text: 'Compare traditional and knowledge leadership.' },
+      { code: 'LO10.2', text: 'Discuss building ethical knowledge cultures.' },
+      { code: 'LO10.3', text: 'Evaluate ethical challenges and responsible Artificial Intelligence.' },
+    ],
+    contents: [
+      '10.1 Introduction',
+      '10.2 Traditional vs Knowledge Leadership',
+      '10.3 Building Ethical Knowledge Cultures',
+      '10.4 Ethical Challenges in the Knowledge Economy',
+      '10.5 Information and Knowledge Stewardship',
+      '10.6 Responsible Artificial Intelligence and Governance',
+      '10.7 Summary',
+    ],
+    keyConcepts: ['Knowledge leadership', 'Ethical knowledge culture', 'Responsible AI', 'Information stewardship'],
+    assessmentWeight: 3,
+    assessmentNote: 'Medium. Usually integrated with Units 4 and 6 on ethics, governance and culture.',
+    theoryIds: ['ikm-info-governance'],
+    prescribedChapters: 'MANCOSA IKM Module Guide (2026), Unit 10',
+  },
+];
