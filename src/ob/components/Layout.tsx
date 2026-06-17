@@ -1,26 +1,25 @@
-import { useState, type ReactNode } from "react";
+import { useState } from "react";
 import { Link, useLocation, Outlet } from "react-router-dom";
 import { SearchBox, Badge } from "./ui";
-import { MODULES } from "../../data";
 import { theories, units, hubs, theoryMatchesSearch } from "../data";
 
 type NavLink = { to: string; label: string; short: string; icon: string };
 
 const NAV_LINKS: NavLink[] = [
-  { to: "/", label: "Home", short: "Home", icon: "\u2302" },
-  { to: "/units", label: "Units", short: "Units", icon: "\u2234" },
-  { to: "/theories", label: "Theories", short: "Theory", icon: "\u2699" },
-  { to: "/motivation", label: "Motivation", short: "Motiv", icon: "\u2605" },
-  { to: "/leadership", label: "Leadership", short: "Lead", icon: "\u25C6" },
-  { to: "/culture-change", label: "Culture & Change", short: "Cult", icon: "\u25A0" },
-  { to: "/conflict-power-politics", label: "Conflict, Power & Politics", short: "Conf", icon: "\u2694" },
-  { to: "/stress-wellbeing", label: "Stress & Wellbeing", short: "Stress", icon: "\u2665" },
-  { to: "/case-analyzer", label: "Case Analyzer", short: "Case", icon: "\u2315" },
-  { to: "/exam-builder", label: "Exam Builder", short: "Exam", icon: "\u270E" },
-  { to: "/paragraph-bank", label: "Paragraph Bank", short: "Para", icon: "\u2630" },
-  { to: "/past-papers", label: "Past Papers", short: "Papers", icon: "\u29C9" },
-  { to: "/command-words", label: "Command Words", short: "Words", icon: "\u2753" },
-  { to: "/checklist", label: "Checklist", short: "Check", icon: "\u2713" },
+  { to: "/ob", label: "Home", short: "Home", icon: "\u2302" },
+  { to: "/ob/units", label: "Units", short: "Units", icon: "\u2234" },
+  { to: "/ob/theories", label: "Theories", short: "Theory", icon: "\u2699" },
+  { to: "/ob/motivation", label: "Motivation", short: "Motiv", icon: "\u2605" },
+  { to: "/ob/leadership", label: "Leadership", short: "Lead", icon: "\u25C6" },
+  { to: "/ob/culture-change", label: "Culture & Change", short: "Cult", icon: "\u25A0" },
+  { to: "/ob/conflict-power-politics", label: "Conflict, Power & Politics", short: "Conf", icon: "\u2694" },
+  { to: "/ob/stress-wellbeing", label: "Stress & Wellbeing", short: "Stress", icon: "\u2665" },
+  { to: "/ob/case-analyzer", label: "Case Analyzer", short: "Case", icon: "\u2315" },
+  { to: "/ob/exam-builder", label: "Exam Builder", short: "Exam", icon: "\u270E" },
+  { to: "/ob/paragraph-bank", label: "Paragraph Bank", short: "Para", icon: "\u2630" },
+  { to: "/ob/past-papers", label: "Past Papers", short: "Papers", icon: "\u29C9" },
+  { to: "/ob/command-words", label: "Command Words", short: "Words", icon: "\u2753" },
+  { to: "/ob/checklist", label: "Checklist", short: "Check", icon: "\u2713" },
 ];
 
 const BOTTOM_NAV = NAV_LINKS.slice(0, 5);
@@ -36,10 +35,8 @@ export default function Layout() {
 
   return (
     <div className="min-h-screen bg-[#FBF7EC] text-[#241349] selection:bg-[#E4CE92]">
-      {/* Header */}
       <header className="sticky top-0 z-40 border-b border-[#E6E1F2] bg-white/95 backdrop-blur-sm">
         <div className="mx-auto flex max-w-7xl items-center gap-3 px-4 py-3 md:px-6">
-          {/* Hamburger (mobile) */}
           <button
             onClick={() => setMenuOpen(!menuOpen)}
             className="flex h-9 w-9 items-center justify-center rounded-full border border-[#D9D2EC] text-[#3B1D6E] md:hidden"
@@ -48,8 +45,7 @@ export default function Layout() {
             <span className="text-lg">{menuOpen ? "\u2715" : "\u2630"}</span>
           </button>
 
-          {/* Brand */}
-          <Link to="/ob/" className="flex-shrink-0" onClick={closeMenu}>
+          <Link to="/ob" className="flex-shrink-0" onClick={closeMenu}>
             <p className="text-[10px] font-extrabold uppercase tracking-[0.16em] text-[#C9A24B]">
               ORB801
             </p>
@@ -58,12 +54,10 @@ export default function Layout() {
             </h1>
           </Link>
 
-          {/* Search */}
           <div className="ml-auto hidden w-full max-w-xs md:block">
             <SearchBox value={searchTerm} onChange={setSearchTerm} />
           </div>
 
-          {/* Stats pills */}
           <div className="ml-2 hidden flex-shrink-0 gap-2 lg:flex">
             <Badge tone="mist">{`${filteredCount} theories`}</Badge>
             <Badge tone="gold">{`${units.length} units`}</Badge>
@@ -72,7 +66,6 @@ export default function Layout() {
         </div>
       </header>
 
-      {/* Mobile slide-out menu */}
       {menuOpen && (
         <div className="fixed inset-0 z-30 md:hidden" onClick={closeMenu}>
           <div className="absolute inset-0 bg-black/20" />
@@ -105,7 +98,6 @@ export default function Layout() {
         </div>
       )}
 
-      {/* Desktop nav bar */}
       <nav className="hidden border-b border-[#E6E1F2] bg-white md:block">
         <div className="mx-auto flex max-w-7xl flex-wrap gap-1.5 px-4 py-2 md:px-6">
           {NAV_LINKS.map((link) => (
@@ -124,12 +116,17 @@ export default function Layout() {
         </div>
       </nav>
 
-      {/* Main content */}
       <main className="mx-auto w-full max-w-7xl px-4 pb-20 pt-4 md:px-6 md:pb-8 md:pt-6">
         <Outlet />
+
+        <footer className="mt-10 border-t border-[#E6E1F2] pt-4 text-center text-xs text-[#6B6580]">
+          <p>© {new Date().getFullYear()} Siphokazi Dludla. All rights reserved.</p>
+          <p className="mt-1">
+            Built for personal MANCOSA PGDBM study support. Academic sources remain the property of their respective owners.
+          </p>
+        </footer>
       </main>
 
-      {/* Bottom nav (mobile) */}
       <nav className="fixed bottom-0 left-0 right-0 z-40 border-t border-[#E6E1F2] bg-white/95 backdrop-blur-sm md:hidden">
         <div className="flex">
           {BOTTOM_NAV.map((link) => (
@@ -137,9 +134,7 @@ export default function Layout() {
               key={link.to}
               to={link.to}
               className={`flex flex-1 flex-col items-center gap-0.5 py-2 text-[10px] font-semibold ${
-                location.pathname === link.to
-                  ? "text-[#3B1D6E]"
-                  : "text-[#9A93AD]"
+                location.pathname === link.to ? "text-[#3B1D6E]" : "text-[#9A93AD]"
               }`}
             >
               <span className="text-base">{link.icon}</span>
