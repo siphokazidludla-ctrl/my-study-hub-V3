@@ -8,7 +8,7 @@ const commandWords = [
     outline: ["Define theory briefly", "Use case evidence", "Apply theory", "Explain impact"],
     example: "Expectancy theory applies because employees may not believe effort will lead to valued rewards.",
     mistake: "Explaining theory without case evidence.",
-    links: [["Theory Explorer", "/theories"], ["Exam Builder", "/exam-builder"]],
+    links: [["Theory Explorer", "/ob/theories"], ["Exam Builder", "/ob/exam-builder"]],
   },
   {
     word: "Analyse",
@@ -17,7 +17,7 @@ const commandWords = [
     outline: ["Identify issue", "Break into causes", "Link each cause to theory", "Explain consequences"],
     example: "The conflict can be analysed as resource pressure, poor communication and power differences.",
     mistake: "Listing points without explaining how they connect.",
-    links: [["Conflict & Power", "/conflict-power-politics"], ["Past Papers", "/past-papers"]],
+    links: [["Conflict & Power", "/ob/conflict-power-politics"], ["Past Papers", "/ob/past-papers"]],
   },
   {
     word: "Evaluate",
@@ -26,7 +26,7 @@ const commandWords = [
     outline: ["Define concept", "Apply to case", "Discuss strengths", "Discuss limitations", "Make judgement"],
     example: "Transformational leadership is useful because it builds vision, but may be insufficient without structure.",
     mistake: "Giving pros and cons but no final judgement.",
-    links: [["Leadership", "/leadership"], ["Exam Builder", "/exam-builder"]],
+    links: [["Leadership", "/ob/leadership"], ["Exam Builder", "/ob/exam-builder"]],
   },
   {
     word: "Appraise",
@@ -35,7 +35,7 @@ const commandWords = [
     outline: ["State criteria", "Assess strengths", "Assess weaknesses", "Use evidence", "Conclude value"],
     example: "The change strategy can be appraised by examining communication, employee involvement and reinforcement.",
     mistake: "Describing instead of assessing value.",
-    links: [["Culture & Change", "/culture-change"], ["Checklist", "/checklist"]],
+    links: [["Culture & Change", "/ob/culture-change"], ["Checklist", "/ob/checklist"]],
   },
   {
     word: "Attribute",
@@ -44,7 +44,7 @@ const commandWords = [
     outline: ["Identify behaviour/outcome", "Consider possible causes", "Use theory", "Decide likely attribution"],
     example: "The manager may wrongly attribute poor performance to laziness rather than role ambiguity or stress.",
     mistake: "Blaming individuals without considering situational factors.",
-    links: [["Theory Explorer", "/theories"], ["Stress & Wellbeing", "/stress-wellbeing"]],
+    links: [["Theory Explorer", "/ob/theories"], ["Stress & Wellbeing", "/ob/stress-wellbeing"]],
   },
   {
     word: "Discuss",
@@ -53,7 +53,7 @@ const commandWords = [
     outline: ["Define concept", "Explain theory", "Apply case", "Mention strengths/limits", "Conclude"],
     example: "Organisational culture shapes behaviour through shared values and assumptions.",
     mistake: "Writing a one-sided answer.",
-    links: [["Culture & Change", "/culture-change"], ["Past Papers", "/past-papers"]],
+    links: [["Culture & Change", "/ob/culture-change"], ["Past Papers", "/ob/past-papers"]],
   },
   {
     word: "Critically discuss",
@@ -62,7 +62,7 @@ const commandWords = [
     outline: ["Define issue", "Explain theory", "Apply case", "Evaluate strengths", "Evaluate limitations", "Judge"],
     example: "Lewin’s model is useful for planned change, but may oversimplify continuous change.",
     mistake: "Describing without criticism.",
-    links: [["Culture & Change", "/culture-change"], ["Exam Builder", "/exam-builder"]],
+    links: [["Culture & Change", "/ob/culture-change"], ["Exam Builder", "/ob/exam-builder"]],
   },
   {
     word: "Compare",
@@ -71,7 +71,7 @@ const commandWords = [
     outline: ["Define both", "Show similarities", "Show differences", "Apply both", "Judge best fit"],
     example: "Expectancy theory focuses on effort-reward links, while equity theory focuses on fairness.",
     mistake: "Explaining each theory separately without comparing.",
-    links: [["Motivation", "/motivation"], ["Past Papers", "/past-papers"]],
+    links: [["Motivation", "/ob/motivation"], ["Past Papers", "/ob/past-papers"]],
   },
   {
     word: "Contrast",
@@ -80,7 +80,7 @@ const commandWords = [
     outline: ["Define both concepts", "Show key differences", "Apply differences to case", "Conclude"],
     example: "Transactional leadership relies on rewards and control, while transformational leadership relies on vision.",
     mistake: "Writing about similarities when the question asks for differences.",
-    links: [["Leadership", "/leadership"], ["Theories", "/theories"]],
+    links: [["Leadership", "/ob/leadership"], ["Theories", "/ob/theories"]],
   },
   {
     word: "Differentiate",
@@ -89,7 +89,7 @@ const commandWords = [
     outline: ["Define concept A", "Define concept B", "State differences", "Use example"],
     example: "A group shares interaction, while a team has shared goals and mutual accountability.",
     mistake: "Using the terms as if they mean the same thing.",
-    links: [["Theories", "/theories"], ["Past Papers", "/past-papers"]],
+    links: [["Theories", "/ob/theories"], ["Past Papers", "/ob/past-papers"]],
   },
   {
     word: "Explain",
@@ -98,7 +98,7 @@ const commandWords = [
     outline: ["Define concept", "Explain how it works", "Give example", "Link to case"],
     example: "Social learning theory explains that employees learn by observing and imitating others.",
     mistake: "Giving examples without explaining the mechanism.",
-    links: [["Motivation", "/motivation"], ["Theory Explorer", "/theories"]],
+    links: [["Motivation", "/ob/motivation"], ["Theory Explorer", "/ob/theories"]],
   },
   {
     word: "Identify",
@@ -107,7 +107,7 @@ const commandWords = [
     outline: ["Name concept", "Briefly define it", "Point to case evidence"],
     example: "The issue is role ambiguity because employees are unclear about expectations.",
     mistake: "Writing a long essay when only naming is required.",
-    links: [["Case Analyzer", "/case-analyzer"], ["Theories", "/theories"]],
+    links: [["Case Analyzer", "/case-analyzer"], ["Theories", "/ob/theories"]],
   },
   {
     word: "Outline",
@@ -116,7 +116,7 @@ const commandWords = [
     outline: ["State key points", "Keep concise", "Avoid excessive detail"],
     example: "The main sources of stress are workload, role ambiguity, role conflict and poor support.",
     mistake: "Writing too much detail for a low-mark question.",
-    links: [["Stress & Wellbeing", "/stress-wellbeing"], ["Checklist", "/checklist"]],
+    links: [["Stress & Wellbeing", "/ob/stress-wellbeing"], ["Checklist", "/ob/checklist"]],
   },
   {
     word: "Recommend",
@@ -125,7 +125,7 @@ const commandWords = [
     outline: ["State problem", "Recommend action", "Support with theory", "Explain expected outcome"],
     example: "Management should reduce resistance through communication, participation, training and reinforcement.",
     mistake: "Vague advice like 'communicate better'.",
-    links: [["Exam Builder", "/exam-builder"], ["Checklist", "/checklist"]],
+    links: [["Exam Builder", "/ob/exam-builder"], ["Checklist", "/ob/checklist"]],
   },
   {
     word: "Justify / Motivate",
@@ -134,7 +134,7 @@ const commandWords = [
     outline: ["State position", "Give theory reason", "Give case reason", "Conclude"],
     example: "This recommendation is justified because it improves fairness perceptions and strengthens commitment.",
     mistake: "Making a claim without explaining why.",
-    links: [["Exam Builder", "/exam-builder"], ["Past Papers", "/past-papers"]],
+    links: [["Exam Builder", "/ob/exam-builder"], ["Past Papers", "/ob/past-papers"]],
   },
   {
     word: "Tabulate",
@@ -143,7 +143,7 @@ const commandWords = [
     outline: ["Create columns", "Use short points", "Compare directly", "Add brief conclusion if needed"],
     example: "Leadership and management can be tabulated by comparing focus, time horizon, influence and control.",
     mistake: "Writing paragraphs when the question asks for a table.",
-    links: [["Leadership", "/leadership"], ["Past Papers", "/past-papers"]],
+    links: [["Leadership", "/ob/leadership"], ["Past Papers", "/ob/past-papers"]],
   },
 ];
 
