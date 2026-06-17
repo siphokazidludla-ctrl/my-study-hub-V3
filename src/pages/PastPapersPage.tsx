@@ -1,4 +1,4 @@
-import { EXAM_TOPICS, THEORIES } from '../data';
+import { pastPapersFor, themeFrequency } from "../data/pastPapers";
 import { Card, PageHeading, BulletList, LinkCard, Badge } from '../components/ui';
 import { useModule } from './helpers';
 
