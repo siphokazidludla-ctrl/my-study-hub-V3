@@ -8,7 +8,7 @@
 // Source status (all papers): Verbatim copies of the uploaded MANCOSA OM past
 // papers (scanned images). Question wording transcribed from those images.
 
-import type { PastPaper } from '../../types/Pastpapers';
+import type { PastPaper } from '../../types/pastPapers';
 
 export const OM_PAST_PAPERS: PastPaper[] = [
   {
