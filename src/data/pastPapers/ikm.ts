@@ -9,7 +9,7 @@
 // papers (scanned images). Question wording transcribed from those images.
 // Treated as the exam-pattern source of truth per the brief.
 
-import type { PastPaper } from '../../types/pastPapers';
+import type { PastPaper } from '../../types/Pastpapers';
 
 export const IKM_PAST_PAPERS: PastPaper[] = [
   {

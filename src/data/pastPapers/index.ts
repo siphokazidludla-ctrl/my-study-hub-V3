@@ -2,7 +2,7 @@
 // Aggregates all module past papers and exposes helpers for the Past Papers Hub.
 
 import type { ModuleId } from '../../types';
-import type { PastPaper } from '../../types/pastPapers';
+import type { PastPaper } from '../../types/Pastpapers';
 import { IKM_PAST_PAPERS } from './ikm';
 import { OM_PAST_PAPERS } from './om';
 import { MM_PAST_PAPERS } from './mm';

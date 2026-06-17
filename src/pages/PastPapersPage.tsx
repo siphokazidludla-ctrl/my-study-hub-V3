@@ -18,11 +18,13 @@ export default function PastPapersPage() {
       </Card>
       <div className="grid gap-3 md:grid-cols-2">
         {papers.map((p) => (
-          <LinkCard key={p.id} to={`/${id}/past-papers/${p.id}`}
-            eyebrow={`${p.totalMarks} marks${p.saContext ? " · SA context" : ""}`}
-            title={p.title}>
-            {p.questions.length} questions · {p.frequency} frequency
-          </LinkCard>
+         <LinkCard
+  key={p.id}
+  to={`/${id}/past-papers/${p.id}`}
+  eyebrow={`${p.totalMarks} marks${p.saContext ? " · SA context" : ""}`}
+  title={p.title}
+  text={`${p.questions.length} questions · ${p.frequency} frequency`}
+/>
         ))}
       </div>
     </div>

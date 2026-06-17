@@ -12,7 +12,7 @@
 // Source status (all papers): Verbatim copies of the uploaded MANCOSA MM past
 // papers (scanned images). Question wording transcribed from those images.
 
-import type { PastPaper } from '../../types/pastPapers';
+import type { PastPaper } from '../../types/Pastpapers';
 
 export const MM_PAST_PAPERS: PastPaper[] = [
   {
