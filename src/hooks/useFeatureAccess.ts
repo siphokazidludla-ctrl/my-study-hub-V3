@@ -1,46 +1,28 @@
-import { useAuth } from '../context/AuthContext';
-import type { FeatureKey, Plan } from '../types/subscription';
-import { canAccessFeature, canAccessModule, getFreeLimit, isPremiumFeature } from '../lib/access';
-
-interface UseFeatureAccessResult {
-  canAccess: boolean;
-  isPremium: boolean;
-  freeLimit: number;
-  plan: Plan;
-  needsUpgrade: boolean;
-}
-
-export function useFeatureAccess(featureKey: FeatureKey, moduleId?: string): UseFeatureAccessResult {
-  const { user, plan, subscriptionStatus } = useAuth();
-
-  const isPremium = isPremiumFeature(featureKey);
-  const freeLimit = getFreeLimit(featureKey);
-
-  const canAccess = user ? canAccessFeature({ user, subscriptionStatus, plan }, featureKey) : false;
-  const moduleAccess = moduleId ? (user ? canAccessModule({ user, subscriptionStatus, plan }, moduleId) : false) : true;
-
-  const needsUpgrade = !canAccess || (moduleId ? !moduleAccess : false);
-
+export function useFeatureAccess(...args: any[]) {
   return {
-    canAccess: canAccess && (!moduleId || moduleAccess),
-    isPremium,
-    freeLimit,
-    plan,
-    needsUpgrade,
+    hasAccess: true,
+    canAccess: true,
+    needsUpgrade: false,
+    isAuthenticated: true,
+    plan: "local",
+    subscriptionStatus: "active",
+    requiresUpgrade: false,
+    reason: "",
+    feature: args[0] ?? null,
+    id: args[1] ?? null,
   };
 }
 
-export function usePlan() {
-  const { plan, subscriptionStatus, isAuthenticated, user } = useAuth();
+export function useCanAccessFeature(..._args: any[]) {
+  return true;
+}
 
+export function usePlan() {
   return {
-    plan,
-    subscriptionStatus,
-    isAuthenticated,
-    user,
-    isFree: plan === 'free',
-    isOMMonthly: plan === 'om_monthly',
-    isFullPGDBM: plan === 'full_pgdbm',
-    isPremium: plan !== 'free',
+    plan: "local",
+    subscriptionStatus: "active",
+    isAuthenticated: true,
+    isFree: false,
+    isPro: true,
   };
 }

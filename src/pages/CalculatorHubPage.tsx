@@ -1,491 +1,516 @@
-import { useMemo, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { Card, PageHeading, Input, Badge, BulletList } from '../components/ui';
-import { useModule } from './helpers';
-import { FORMULAS } from '../data/formulas';
-import { OM_FORMULAS, getOMWorkedExampleByFormula } from '../data/modules/om';
-import { useFeatureAccess, usePlan } from '../hooks/useFeatureAccess';
-import Paywall from '../components/auth/Paywall';
-import UpgradePrompt from '../components/auth/UpgradePrompt';
+import { useMemo, useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import { PageHeading, Card, Input, Badge, BulletList } from "../components/ui";
+import { useModule } from "./helpers";
 
-type CalculatorState = {
-  formulaId: string;
-  inputs: Record<string, string>;
-  result: string | null;
-  steps: string[];
+type Variable = {
+  key: string;
+  label: string;
+  unit?: string;
 };
 
-function EOQCalculator({ onCalculate }: { onCalculate?: (result: string) => void }) {
-  const [demand, setDemand] = useState('');
-  const [orderingCost, setOrderingCost] = useState('');
-  const [holdingCost, setHoldingCost] = useState('');
-  const [result, setResult] = useState<{ eoq: number; orders: number; aoc: number; ahc: number } | null>(null);
+type CalculatorFormula = {
+  id: string;
+  name: string;
+  category: string;
+  formula: string;
+  description: string;
+  variables: Variable[];
+};
 
-  const calculate = () => {
-    const D = parseFloat(demand);
-    const S = parseFloat(orderingCost);
-    const H = parseFloat(holdingCost);
-    if (D > 0 && S > 0 && H > 0) {
-      const eoq = Math.sqrt((2 * D * S) / H);
-      const orders = D / eoq;
-      const aoc = orders * S;
-      const ahc = (eoq / 2) * H;
-      setResult({ eoq: Math.round(eoq), orders: Math.round(orders * 10) / 10, aoc: Math.round(aoc * 100) / 100, ahc: Math.round(ahc * 100) / 100 });
-      onCalculate?.(`EOQ = ${Math.round(eoq)} units`);
+const CALCULATORS: CalculatorFormula[] = [
+  {
+    id: "productivity",
+    name: "Productivity",
+    category: "Productivity",
+    formula: "Productivity = Output / Input",
+    description: "Measures how efficiently inputs are converted into outputs.",
+    variables: [
+      { key: "productivity", label: "Productivity" },
+      { key: "output", label: "Output" },
+      { key: "input", label: "Input" },
+    ],
+  },
+  {
+    id: "multifactor-productivity",
+    name: "Multifactor Productivity",
+    category: "Productivity",
+    formula: "MFP = Output / (Labour + Material + Overhead)",
+    description: "Measures output against multiple input costs.",
+    variables: [
+      { key: "mfp", label: "Multifactor Productivity" },
+      { key: "output", label: "Output" },
+      { key: "labour", label: "Labour Cost" },
+      { key: "material", label: "Material Cost" },
+      { key: "overhead", label: "Overhead Cost" },
+    ],
+  },
+  {
+    id: "utilisation",
+    name: "Capacity Utilisation",
+    category: "Capacity",
+    formula: "Utilisation = Actual Output / Design Capacity × 100",
+    description: "Shows how much of design capacity is being used.",
+    variables: [
+      { key: "utilisation", label: "Utilisation (%)" },
+      { key: "actualOutput", label: "Actual Output" },
+      { key: "designCapacity", label: "Design Capacity" },
+    ],
+  },
+  {
+    id: "efficiency",
+    name: "Efficiency",
+    category: "Capacity",
+    formula: "Efficiency = Actual Output / Effective Capacity × 100",
+    description: "Shows performance against realistic effective capacity.",
+    variables: [
+      { key: "efficiency", label: "Efficiency (%)" },
+      { key: "actualOutput", label: "Actual Output" },
+      { key: "effectiveCapacity", label: "Effective Capacity" },
+    ],
+  },
+  {
+    id: "eoq",
+    name: "Economic Order Quantity",
+    category: "Inventory",
+    formula: "EOQ = √((2DS) / H)",
+    description: "Calculates the optimal order quantity that balances ordering and holding costs.",
+    variables: [
+      { key: "eoq", label: "EOQ" },
+      { key: "demand", label: "Annual Demand (D)" },
+      { key: "orderingCost", label: "Ordering Cost (S)" },
+      { key: "holdingCost", label: "Holding Cost (H)" },
+    ],
+  },
+  {
+    id: "rop",
+    name: "Reorder Point",
+    category: "Inventory",
+    formula: "ROP = Demand During Lead Time + Safety Stock",
+    description: "Shows when a new order should be placed.",
+    variables: [
+      { key: "rop", label: "Reorder Point" },
+      { key: "demandLeadTime", label: "Demand During Lead Time" },
+      { key: "safetyStock", label: "Safety Stock" },
+    ],
+  },
+  {
+    id: "inventory-turnover",
+    name: "Inventory Turnover",
+    category: "Inventory",
+    formula: "Inventory Turnover = Cost of Goods Sold / Average Inventory",
+    description: "Shows how many times inventory is sold or used during a period.",
+    variables: [
+      { key: "turnover", label: "Inventory Turnover" },
+      { key: "cogs", label: "Cost of Goods Sold" },
+      { key: "averageInventory", label: "Average Inventory" },
+    ],
+  },
+  {
+    id: "break-even",
+    name: "Break-even Quantity",
+    category: "Decision Analysis",
+    formula: "Break-even Quantity = Fixed Cost / (Price - Variable Cost)",
+    description: "Calculates how many units must be sold to cover costs.",
+    variables: [
+      { key: "breakEven", label: "Break-even Quantity" },
+      { key: "fixedCost", label: "Fixed Cost" },
+      { key: "price", label: "Selling Price per Unit" },
+      { key: "variableCost", label: "Variable Cost per Unit" },
+    ],
+  },
+  {
+    id: "forecast-error",
+    name: "Forecast Error",
+    category: "Forecasting",
+    formula: "Forecast Error = Actual Demand - Forecast Demand",
+    description: "Shows the difference between what happened and what was forecast.",
+    variables: [
+      { key: "error", label: "Forecast Error" },
+      { key: "actual", label: "Actual Demand" },
+      { key: "forecast", label: "Forecast Demand" },
+    ],
+  },
+  {
+    id: "mad",
+    name: "Mean Absolute Deviation",
+    category: "Forecasting",
+    formula: "MAD = Sum of Absolute Errors / Number of Periods",
+    description: "Measures average forecast error without considering direction.",
+    variables: [
+      { key: "mad", label: "MAD" },
+      { key: "sumAbsoluteErrors", label: "Sum of Absolute Errors" },
+      { key: "periods", label: "Number of Periods" },
+    ],
+  },
+  {
+    id: "mse",
+    name: "Mean Squared Error",
+    category: "Forecasting",
+    formula: "MSE = Sum of Squared Errors / Number of Periods",
+    description: "Penalises larger forecast errors more heavily.",
+    variables: [
+      { key: "mse", label: "MSE" },
+      { key: "sumSquaredErrors", label: "Sum of Squared Errors" },
+      { key: "periods", label: "Number of Periods" },
+    ],
+  },
+  {
+    id: "mape",
+    name: "Mean Absolute Percentage Error",
+    category: "Forecasting",
+    formula: "MAPE = Sum of Absolute Percentage Errors / Number of Periods",
+    description: "Shows forecast error as a percentage.",
+    variables: [
+      { key: "mape", label: "MAPE (%)" },
+      { key: "sumAbsolutePercentageErrors", label: "Sum of Absolute Percentage Errors" },
+      { key: "periods", label: "Number of Periods" },
+    ],
+  },
+  {
+    id: "moving-average",
+    name: "Moving Average",
+    category: "Forecasting",
+    formula: "Moving Average = Sum of Demand Values / Number of Periods",
+    description: "Forecasts using the average of recent demand values.",
+    variables: [
+      { key: "movingAverage", label: "Moving Average" },
+      { key: "sumDemand", label: "Sum of Demand Values" },
+      { key: "periods", label: "Number of Periods" },
+    ],
+  },
+  {
+    id: "weighted-moving-average",
+    name: "Weighted Moving Average",
+    category: "Forecasting",
+    formula: "WMA = Sum(Demand × Weight) / Sum of Weights",
+    description: "Forecasts demand using weights to give some periods more importance.",
+    variables: [
+      { key: "wma", label: "Weighted Moving Average" },
+      { key: "weightedDemand", label: "Sum of Demand × Weight" },
+      { key: "sumWeights", label: "Sum of Weights" },
+    ],
+  },
+  {
+    id: "exponential-smoothing",
+    name: "Exponential Smoothing",
+    category: "Forecasting",
+    formula: "New Forecast = Old Forecast + α(Actual Demand - Old Forecast)",
+    description: "Updates a forecast using the previous forecast and the latest actual demand.",
+    variables: [
+      { key: "newForecast", label: "New Forecast" },
+      { key: "oldForecast", label: "Old Forecast" },
+      { key: "alpha", label: "Alpha (α)" },
+      { key: "actualDemand", label: "Actual Demand" },
+    ],
+  },
+];
+
+function calculate(formulaId: string, solveFor: string, values: Record<string, number>) {
+  const v = values;
+
+  switch (formulaId) {
+    case "productivity":
+      if (solveFor === "productivity") return v.output / v.input;
+      if (solveFor === "output") return v.productivity * v.input;
+      if (solveFor === "input") return v.output / v.productivity;
+      break;
+
+    case "multifactor-productivity": {
+      const totalInput = v.labour + v.material + v.overhead;
+      if (solveFor === "mfp") return v.output / totalInput;
+      if (solveFor === "output") return v.mfp * totalInput;
+      break;
     }
-  };
 
-  return (
-    <Card title="EOQ Calculator" tone="white">
-      <div className="space-y-4">
-        <div>
-          <label className="text-sm font-medium text-slate-600">Annual Demand (D) - units/year</label>
-          <Input value={demand} onChange={setDemand} placeholder="e.g., 12000" />
-        </div>
-        <div>
-          <label className="text-sm font-medium text-slate-600">Ordering Cost (S) - R per order</label>
-          <Input value={orderingCost} onChange={setOrderingCost} placeholder="e.g., 200" />
-        </div>
-        <div>
-          <label className="text-sm font-medium text-slate-600">Holding Cost (H) - R per unit/year</label>
-          <Input value={holdingCost} onChange={setHoldingCost} placeholder="e.g., 6" />
-        </div>
-        <button onClick={calculate} className="w-full rounded-lg bg-[#3B1D6E] px-4 py-2 font-medium text-white hover:bg-[#2d1654]">
-          Calculate EOQ
-        </button>
-        {result && (
-          <div className="space-y-2 rounded-lg bg-slate-50 p-4">
-            <p className="text-lg font-bold text-[#3B1D6E]">EOQ = {result.eoq} units</p>
-            <div className="text-sm text-slate-600 space-y-1">
-              <p>Orders per year: {result.orders}</p>
-              <p>Annual ordering cost: R{result.aoc}</p>
-              <p>Annual holding cost: R{result.ahc}</p>
-              <p className="font-medium">Total annual cost: R{Math.round((result.aoc + result.ahc) * 100) / 100}</p>
-            </div>
-          </div>
-        )}
-      </div>
-    </Card>
-  );
-}
+    case "utilisation":
+      if (solveFor === "utilisation") return (v.actualOutput / v.designCapacity) * 100;
+      if (solveFor === "actualOutput") return (v.utilisation / 100) * v.designCapacity;
+      if (solveFor === "designCapacity") return v.actualOutput / (v.utilisation / 100);
+      break;
 
-function ProductivityCalculator() {
-  const [output, setOutput] = useState('');
-  const [input, setInput] = useState('');
-  const [result, setResult] = useState<{ productivity: number } | null>(null);
+    case "efficiency":
+      if (solveFor === "efficiency") return (v.actualOutput / v.effectiveCapacity) * 100;
+      if (solveFor === "actualOutput") return (v.efficiency / 100) * v.effectiveCapacity;
+      if (solveFor === "effectiveCapacity") return v.actualOutput / (v.efficiency / 100);
+      break;
 
-  const calculate = () => {
-    const o = parseFloat(output);
-    const i = parseFloat(input);
-    if (o > 0 && i > 0) {
-      setResult({ productivity: o / i });
-    }
-  };
+    case "eoq":
+      if (solveFor === "eoq") return Math.sqrt((2 * v.demand * v.orderingCost) / v.holdingCost);
+      if (solveFor === "demand") return (v.eoq ** 2 * v.holdingCost) / (2 * v.orderingCost);
+      if (solveFor === "orderingCost") return (v.eoq ** 2 * v.holdingCost) / (2 * v.demand);
+      if (solveFor === "holdingCost") return (2 * v.demand * v.orderingCost) / (v.eoq ** 2);
+      break;
 
-  return (
-    <Card title="Productivity Calculator" tone="white">
-      <div className="space-y-4">
-        <div>
-          <label className="text-sm font-medium text-slate-600">Output (units produced)</label>
-          <Input value={output} onChange={setOutput} placeholder="e.g., 500" />
-        </div>
-        <div>
-          <label className="text-sm font-medium text-slate-600">Input (labour hours, R, etc.)</label>
-          <Input value={input} onChange={setInput} placeholder="e.g., 100" />
-        </div>
-        <button onClick={calculate} className="w-full rounded-lg bg-[#3B1D6E] px-4 py-2 font-medium text-white hover:bg-[#2d1654]">
-          Calculate Productivity
-        </button>
-        {result && (
-          <div className="rounded-lg bg-slate-50 p-4">
-            <p className="text-lg font-bold text-[#3B1D6E]">Productivity = {result.productivity.toFixed(2)} units per input unit</p>
-          </div>
-        )}
-      </div>
-    </Card>
-  );
-}
+    case "rop":
+      if (solveFor === "rop") return v.demandLeadTime + v.safetyStock;
+      if (solveFor === "demandLeadTime") return v.rop - v.safetyStock;
+      if (solveFor === "safetyStock") return v.rop - v.demandLeadTime;
+      break;
 
-function CapacityCalculator() {
-  const [actual, setActual] = useState('');
-  const [design, setDesign] = useState('');
-  const [effective, setEffective] = useState('');
-  const [result, setResult] = useState<{ utilisation: number; efficiency: number } | null>(null);
+    case "inventory-turnover":
+      if (solveFor === "turnover") return v.cogs / v.averageInventory;
+      if (solveFor === "cogs") return v.turnover * v.averageInventory;
+      if (solveFor === "averageInventory") return v.cogs / v.turnover;
+      break;
 
-  const calculate = () => {
-    const a = parseFloat(actual);
-    const d = parseFloat(design);
-    const e = parseFloat(effective);
-    if (a > 0 && d > 0) {
-      setResult({
-        utilisation: (a / d) * 100,
-        efficiency: e > 0 ? (a / e) * 100 : 0,
-      });
-    }
-  };
+    case "break-even":
+      if (solveFor === "breakEven") return v.fixedCost / (v.price - v.variableCost);
+      if (solveFor === "fixedCost") return v.breakEven * (v.price - v.variableCost);
+      if (solveFor === "price") return v.fixedCost / v.breakEven + v.variableCost;
+      if (solveFor === "variableCost") return v.price - v.fixedCost / v.breakEven;
+      break;
 
-  return (
-    <Card title="Capacity Calculator" tone="white">
-      <div className="space-y-4">
-        <div>
-          <label className="text-sm font-medium text-slate-600">Actual Output (units)</label>
-          <Input value={actual} onChange={setActual} placeholder="e.g., 160" />
-        </div>
-        <div>
-          <label className="text-sm font-medium text-slate-600">Design Capacity (units)</label>
-          <Input value={design} onChange={setDesign} placeholder="e.g., 200" />
-        </div>
-        <div>
-          <label className="text-sm font-medium text-slate-600">Effective Capacity (units) - optional</label>
-          <Input value={effective} onChange={setEffective} placeholder="e.g., 180" />
-        </div>
-        <button onClick={calculate} className="w-full rounded-lg bg-[#3B1D6E] px-4 py-2 font-medium text-white hover:bg-[#2d1654]">
-          Calculate
-        </button>
-        {result && (
-          <div className="space-y-2 rounded-lg bg-slate-50 p-4">
-            <p className="text-lg font-bold text-[#3B1D6E]">Utilisation = {result.utilisation.toFixed(1)}%</p>
-            {result.efficiency > 0 && (
-              <p className="text-lg font-bold text-[#3B1D6E]">Efficiency = {result.efficiency.toFixed(1)}%</p>
-            )}
-          </div>
-        )}
-      </div>
-    </Card>
-  );
-}
+    case "forecast-error":
+      if (solveFor === "error") return v.actual - v.forecast;
+      if (solveFor === "actual") return v.error + v.forecast;
+      if (solveFor === "forecast") return v.actual - v.error;
+      break;
 
-function MADCalculator() {
-  const [values, setValues] = useState<{ actual: string; forecast: string }[]>([
-    { actual: '', forecast: '' },
-    { actual: '', forecast: '' },
-    { actual: '', forecast: '' },
-  ]);
-  const [result, setResult] = useState<{ mad: number; errors: number[] } | null>(null);
+    case "mad":
+      if (solveFor === "mad") return v.sumAbsoluteErrors / v.periods;
+      if (solveFor === "sumAbsoluteErrors") return v.mad * v.periods;
+      if (solveFor === "periods") return v.sumAbsoluteErrors / v.mad;
+      break;
 
-  const updateValue = (index: number, field: 'actual' | 'forecast', value: string) => {
-    const updated = [...values];
-    updated[index][field] = value;
-    setValues(updated);
-  };
+    case "mse":
+      if (solveFor === "mse") return v.sumSquaredErrors / v.periods;
+      if (solveFor === "sumSquaredErrors") return v.mse * v.periods;
+      if (solveFor === "periods") return v.sumSquaredErrors / v.mse;
+      break;
 
-  const addRow = () => {
-    setValues([...values, { actual: '', forecast: '' }]);
-  };
+    case "mape":
+      if (solveFor === "mape") return v.sumAbsolutePercentageErrors / v.periods;
+      if (solveFor === "sumAbsolutePercentageErrors") return v.mape * v.periods;
+      if (solveFor === "periods") return v.sumAbsolutePercentageErrors / v.mape;
+      break;
 
-  const calculate = () => {
-    const errors: number[] = [];
-    values.forEach((v) => {
-      const a = parseFloat(v.actual);
-      const f = parseFloat(v.forecast);
-      if (!isNaN(a) && !isNaN(f)) {
-        errors.push(Math.abs(a - f));
+    case "moving-average":
+      if (solveFor === "movingAverage") return v.sumDemand / v.periods;
+      if (solveFor === "sumDemand") return v.movingAverage * v.periods;
+      if (solveFor === "periods") return v.sumDemand / v.movingAverage;
+      break;
+
+    case "weighted-moving-average":
+      if (solveFor === "wma") return v.weightedDemand / v.sumWeights;
+      if (solveFor === "weightedDemand") return v.wma * v.sumWeights;
+      if (solveFor === "sumWeights") return v.weightedDemand / v.wma;
+      break;
+
+    case "exponential-smoothing":
+      if (solveFor === "newForecast") {
+        return v.oldForecast + v.alpha * (v.actualDemand - v.oldForecast);
       }
-    });
-    if (errors.length > 0) {
-      const mad = errors.reduce((sum, e) => sum + e, 0) / errors.length;
-      setResult({ mad, errors });
-    }
-  };
+      if (solveFor === "actualDemand") {
+        return ((v.newForecast - v.oldForecast) / v.alpha) + v.oldForecast;
+      }
+      if (solveFor === "alpha") {
+        return (v.newForecast - v.oldForecast) / (v.actualDemand - v.oldForecast);
+      }
+      if (solveFor === "oldForecast") {
+        return (v.newForecast - v.alpha * v.actualDemand) / (1 - v.alpha);
+      }
+      break;
+  }
 
-  return (
-    <Card title="MAD Calculator" tone="white">
-      <div className="space-y-4">
-        <p className="text-sm text-slate-600">Enter actual and forecast values for each period</p>
-        {values.map((v, i) => (
-          <div key={i} className="flex gap-2 items-center">
-            <span className="text-sm text-slate-500 w-20">Period {i + 1}:</span>
-            <Input value={v.actual} onChange={(val) => updateValue(i, 'actual', val)} placeholder="Actual" />
-            <Input value={v.forecast} onChange={(val) => updateValue(i, 'forecast', val)} placeholder="Forecast" />
-          </div>
-        ))}
-        <div className="flex gap-2">
-          <button onClick={addRow} className="rounded-lg border border-slate-300 px-3 py-1 text-sm hover:bg-slate-50">
-            + Add period
-          </button>
-          <button onClick={calculate} className="flex-1 rounded-lg bg-[#3B1D6E] px-4 py-2 font-medium text-white hover:bg-[#2d1654]">
-            Calculate MAD
-          </button>
-        </div>
-        {result && (
-          <div className="space-y-2 rounded-lg bg-slate-50 p-4">
-            <p className="text-lg font-bold text-[#3B1D6E]">MAD = {result.mad.toFixed(2)} units</p>
-            <p className="text-sm text-slate-600">Absolute deviations: {result.errors.map((e) => e.toFixed(1)).join(', ')}</p>
-          </div>
-        )}
-      </div>
-    </Card>
-  );
-}
-
-function ROPCalculator() {
-  const [dailyDemand, setDailyDemand] = useState('');
-  const [leadTime, setLeadTime] = useState('');
-  const [safetyStock, setSafetyStock] = useState('');
-  const [result, setResult] = useState<{ rop: number; demandDuringLead: number } | null>(null);
-
-  const calculate = () => {
-    const d = parseFloat(dailyDemand);
-    const l = parseFloat(leadTime);
-    const s = parseFloat(safetyStock) || 0;
-    if (d > 0 && l > 0) {
-      const demandDuringLead = d * l;
-      const rop = demandDuringLead + s;
-      setResult({ rop: Math.round(rop), demandDuringLead: Math.round(demandDuringLead) });
-    }
-  };
-
-  return (
-    <Card title="Reorder Point Calculator" tone="white">
-      <div className="space-y-4">
-        <div>
-          <label className="text-sm font-medium text-slate-600">Daily Demand (units/day)</label>
-          <Input value={dailyDemand} onChange={setDailyDemand} placeholder="e.g., 50" />
-        </div>
-        <div>
-          <label className="text-sm font-medium text-slate-600">Lead Time (days)</label>
-          <Input value={leadTime} onChange={setLeadTime} placeholder="e.g., 6" />
-        </div>
-        <div>
-          <label className="text-sm font-medium text-slate-600">Safety Stock (units) - optional</label>
-          <Input value={safetyStock} onChange={setSafetyStock} placeholder="e.g., 100" />
-        </div>
-        <button onClick={calculate} className="w-full rounded-lg bg-[#3B1D6E] px-4 py-2 font-medium text-white hover:bg-[#2d1654]">
-          Calculate ROP
-        </button>
-        {result && (
-          <div className="space-y-2 rounded-lg bg-slate-50 p-4">
-            <p className="text-lg font-bold text-[#3B1D6E]">ROP = {result.rop} units</p>
-            <p className="text-sm text-slate-600">Demand during lead time: {result.demandDuringLead} units</p>
-          </div>
-        )}
-      </div>
-    </Card>
-  );
+  return NaN;
 }
 
 export default function CalculatorHubPage() {
   const { id, module } = useModule();
   const { formulaId } = useParams();
-  const [query, setQuery] = useState('');
-  const { canAccess, needsUpgrade } = useFeatureAccess('calculators', id);
-  const { isFree, isPremium, isAuthenticated } = usePlan();
+  const [query, setQuery] = useState("");
 
-  const omFormulas = id === 'om' ? OM_FORMULAS : FORMULAS;
+  const selectedFormula =
+    CALCULATORS.find((f) => f.id === formulaId) ?? CALCULATORS[0];
+
+  const [currentId, setCurrentId] = useState(selectedFormula.id);
+  const currentFormula = CALCULATORS.find((f) => f.id === currentId) ?? CALCULATORS[0];
+
+  const [solveFor, setSolveFor] = useState(currentFormula.variables[0].key);
+  const [values, setValues] = useState<Record<string, number>>({});
 
   const filtered = useMemo(() => {
-    return omFormulas.filter((formula) => {
-      const searchText = [formula.name, formula.formula, 'description' in formula ? formula.description : formula.plainMeaning, formula.category]
-        .join(' ')
-        .toLowerCase();
-      return searchText.includes(query.toLowerCase());
-    });
-  }, [query, omFormulas]);
+    return CALCULATORS.filter((formula) =>
+      [formula.name, formula.category, formula.formula, formula.description]
+        .join(" ")
+        .toLowerCase()
+        .includes(query.toLowerCase())
+    );
+  }, [query]);
 
-  const selectedFormula = formulaId ? omFormulas.find((f) => f.id === formulaId) : undefined;
+  function updateFormula(nextId: string) {
+    const next = CALCULATORS.find((f) => f.id === nextId) ?? CALCULATORS[0];
+    setCurrentId(next.id);
+    setSolveFor(next.variables[0].key);
+    setValues({});
+  }
 
-  // Free users can only use EOQ calculator
-  const freeCalculator = 'eoq';
-  const isPremiumCalculator = formulaId && formulaId !== freeCalculator;
+  function setValue(key: string, value: string) {
+    setValues((prev) => ({
+      ...prev,
+      [key]: Number(value),
+    }));
+  }
+
+  const requiredVariables = currentFormula.variables.filter((v) => v.key !== solveFor);
+  const canCalculate = requiredVariables.every(
+    (v) => values[v.key] !== undefined && !Number.isNaN(values[v.key])
+  );
+
+  const result = canCalculate ? calculate(currentFormula.id, solveFor, values) : NaN;
+  const solveLabel =
+    currentFormula.variables.find((v) => v.key === solveFor)?.label ?? solveFor;
 
   return (
     <div className="space-y-5">
-      <PageHeading kicker={`${module.code} Calculator Hub`} title={selectedFormula ? `${selectedFormula.name} Calculator` : 'Calculator hub'} sub="Fast access to OM calculation tools with step-by-step guidance." />
+      <PageHeading
+        kicker={`${module.code} Calculator Hub`}
+        title="Operations Management Formula Solver"
+        sub="Choose a formula, choose the variable you want to solve for, enter the known values, and the calculator rearranges the formula."
+      />
 
-      {selectedFormula && (
-        <Link to={`/${id}/calculators`} className="text-sm font-medium text-[#3B1D6E] hover:underline">
-          ← Back to all calculators
-        </Link>
-      )}
+      <Card title="Formula solver" tone="gold">
+        <div className="grid gap-4 lg:grid-cols-2">
+          <label className="block">
+            <span className="mb-1 block text-xs font-bold uppercase tracking-wide text-slate-500">
+              Choose formula
+            </span>
+            <select
+              value={currentFormula.id}
+              onChange={(e) => updateFormula(e.target.value)}
+              className="w-full rounded-2xl border border-[#D9D2EC] bg-white px-3 py-2 text-sm"
+            >
+              {CALCULATORS.map((formula) => (
+                <option key={formula.id} value={formula.id}>
+                  {formula.name}
+                </option>
+              ))}
+            </select>
+          </label>
 
-      {isFree && (
-        <div className="rounded-lg border border-amber-200 bg-amber-50 p-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="font-medium text-amber-800">Free plan: EOQ calculator preview</p>
-              <p className="text-sm text-amber-700 mt-1">Upgrade to unlock all calculators.</p>
-            </div>
-            <Link to="/pricing" className="rounded-full border border-amber-300 bg-white px-4 py-2 text-sm font-bold text-amber-700 hover:bg-amber-100">
-              View plans
-            </Link>
-          </div>
+          <label className="block">
+            <span className="mb-1 block text-xs font-bold uppercase tracking-wide text-slate-500">
+              Solve for
+            </span>
+            <select
+              value={solveFor}
+              onChange={(e) => setSolveFor(e.target.value)}
+              className="w-full rounded-2xl border border-[#D9D2EC] bg-white px-3 py-2 text-sm"
+            >
+              {currentFormula.variables.map((variable) => (
+                <option key={variable.key} value={variable.key}>
+                  {variable.label}
+                </option>
+              ))}
+            </select>
+          </label>
         </div>
-      )}
 
-      {formulaId === 'eoq' && !selectedFormula && (
-        <Card title="Select a calculator">
-          <Link to={`/${id}/calculators/eoq`} className="text-[#3B1D6E] font-medium hover:underline">Open EOQ Calculator</Link>
-        </Card>
-      )}
-
-      {formulaId === 'eoq' && (
-        <div className="grid gap-6 lg:grid-cols-[1.5fr_1fr]">
-          <EOQCalculator />
-          <Card title="EOQ Formula">
-            <div className="space-y-3">
-              <div className="rounded-lg bg-slate-50 p-3 font-mono">
-                EOQ = sqrt((2 x D x S) / H)
-              </div>
-              <div className="text-sm text-slate-600">
-                <p><strong>D</strong> = Annual demand (units/year)</p>
-                <p><strong>S</strong> = Ordering cost per order (R)</p>
-                <p><strong>H</strong> = Holding cost per unit per year (R)</p>
-              </div>
-              <Link to={`/${id}/formulas/eoq`} className="block text-sm text-[#3B1D6E] hover:underline">
-                View formula details
-              </Link>
-            </div>
-          </Card>
+        <div className="mt-4 rounded-2xl bg-white p-4">
+          <Badge>{currentFormula.category}</Badge>
+          <h2 className="mt-2 text-xl font-extrabold text-[#241349]">
+            {currentFormula.name}
+          </h2>
+          <p className="mt-1 font-mono text-sm text-slate-600">
+            {currentFormula.formula}
+          </p>
+          <p className="mt-2 text-sm text-slate-600">
+            {currentFormula.description}
+          </p>
         </div>
-      )}
 
-      {formulaId === 'productivity' && (isPremium ? (
-        <div className="grid gap-6 lg:grid-cols-[1.5fr_1fr]">
-          <ProductivityCalculator />
-          <Card title="Productivity Formula">
-            <div className="space-y-3">
-              <div className="rounded-lg bg-slate-50 p-3 font-mono">
-                Productivity = Output / Input
-              </div>
-              <Link to={`/${id}/formulas/productivity`} className="block text-sm text-[#3B1D6E] hover:underline">
-                View formula details
-              </Link>
-            </div>
-          </Card>
+        <div className="mt-4 grid gap-3 md:grid-cols-2">
+          {requiredVariables.map((variable) => (
+            <label key={variable.key} className="block">
+              <span className="mb-1 block text-xs font-bold uppercase tracking-wide text-slate-500">
+                {variable.label}
+              </span>
+              <input
+                type="number"
+                value={values[variable.key] ?? ""}
+                onChange={(e) => setValue(variable.key, e.target.value)}
+                className="w-full rounded-2xl border border-[#D9D2EC] bg-white px-3 py-2 text-sm"
+                placeholder="Enter value"
+              />
+            </label>
+          ))}
         </div>
-      ) : (
-        <UpgradePrompt currentPlan="free" requiredPlan="om_monthly" featureName="Productivity Calculator" />
-      ))}
 
-      {formulaId === 'utilisation' && (isPremium ? (
-        <div className="grid gap-6 lg:grid-cols-[1.5fr_1fr]">
-          <CapacityCalculator />
-          <Card title="Utilisation & Efficiency">
-            <div className="space-y-3">
-              <div className="rounded-lg bg-slate-50 p-3 font-mono text-sm">
-                Utilisation = (Actual / Design) x 100%<br/>
-                Efficiency = (Actual / Effective) x 100%
-              </div>
-              <Link to={`/${id}/formulas/utilisation`} className="block text-sm text-[#3B1D6E] hover:underline">
-                View formula details
-              </Link>
-            </div>
-          </Card>
-        </div>
-      ) : (
-        <UpgradePrompt currentPlan="free" requiredPlan="om_monthly" featureName="Capacity Calculator" />
-      ))}
-
-      {formulaId === 'mad' && (isPremium ? (
-        <div className="grid gap-6 lg:grid-cols-[1.5fr_1fr]">
-          <MADCalculator />
-          <Card title="MAD Formula">
-            <div className="space-y-3">
-              <div className="rounded-lg bg-slate-50 p-3 font-mono text-sm">
-                MAD = Sum|Actual - Forecast| / n
-              </div>
-              <Link to={`/${id}/formulas/mad`} className="block text-sm text-[#3B1D6E] hover:underline">
-                View formula details
-              </Link>
-            </div>
-          </Card>
-        </div>
-      ) : (
-        <UpgradePrompt currentPlan="free" requiredPlan="om_monthly" featureName="MAD Calculator" />
-      ))}
-
-      {formulaId === 'rop' && (isPremium ? (
-        <div className="grid gap-6 lg:grid-cols-[1.5fr_1fr]">
-          <ROPCalculator />
-          <Card title="ROP Formula">
-            <div className="space-y-3">
-              <div className="rounded-lg bg-slate-50 p-3 font-mono text-sm">
-                ROP = (Daily demand x Lead time) + Safety stock
-              </div>
-              <Link to={`/${id}/formulas/rop`} className="block text-sm text-[#3B1D6E] hover:underline">
-                View formula details
-              </Link>
-            </div>
-          </Card>
-        </div>
-      ) : (
-        <UpgradePrompt currentPlan="free" requiredPlan="om_monthly" featureName="ROP Calculator" />
-      ))}
-
-      {!formulaId && (
-        <>
-          <Card title="Available Calculators" tone="white">
-            <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
-              <Link to={`/${id}/calculators/eoq`} className="rounded-lg border border-slate-200 p-4 hover:border-[#3B1D6E] hover:bg-slate-50">
-                <h3 className="font-semibold">EOQ Calculator</h3>
-                <p className="text-sm text-slate-600">Economic Order Quantity</p>
-                <div className="mt-2"><Badge>Free</Badge></div>
-              </Link>
-              <Link to={`/${id}/calculators/productivity`} className="rounded-lg border border-slate-200 p-4 hover:border-[#3B1D6E] hover:bg-slate-50 relative">
-                <h3 className="font-semibold">Productivity Calculator</h3>
-                <p className="text-sm text-slate-600">Output/Input ratio</p>
-                {isFree && <div className="mt-2"><Badge tone="gold">Premium</Badge></div>}
-              </Link>
-              <Link to={`/${id}/calculators/utilisation`} className="rounded-lg border border-slate-200 p-4 hover:border-[#3B1D6E] hover:bg-slate-50 relative">
-                <h3 className="font-semibold">Capacity Calculator</h3>
-                <p className="text-sm text-slate-600">Utilisation & Efficiency</p>
-                {isFree && <div className="mt-2"><Badge tone="gold">Premium</Badge></div>}
-              </Link>
-              <Link to={`/${id}/calculators/mad`} className="rounded-lg border border-slate-200 p-4 hover:border-[#3B1D6E] hover:bg-slate-50 relative">
-                <h3 className="font-semibold">MAD Calculator</h3>
-                <p className="text-sm text-slate-600">Forecast accuracy</p>
-                {isFree && <div className="mt-2"><Badge tone="gold">Premium</Badge></div>}
-              </Link>
-              <Link to={`/${id}/calculators/rop`} className="rounded-lg border border-slate-200 p-4 hover:border-[#3B1D6E] hover:bg-slate-50 relative">
-                <h3 className="font-semibold">ROP Calculator</h3>
-                <p className="text-sm text-slate-600">Reorder Point</p>
-                {isFree && <div className="mt-2"><Badge tone="gold">Premium</Badge></div>}
-              </Link>
-            </div>
-          </Card>
-
-          <Card title="Search formulas" tone="white">
-            <Input value={query} onChange={setQuery} placeholder="Search calculators by formula name or concept..." />
-          </Card>
-
-          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-            {filtered.map((formula) => (
-              <Link
-                key={formula.id}
-                to={`/${id}/formulas/${formula.id}`}
-                className="block rounded-lg border border-slate-200 p-4 hover:border-[#3B1D6E] hover:bg-slate-50"
-              >
-                <div className="flex items-start justify-between">
-                  <div>
-                    <p className="text-xs font-medium text-slate-500">{formula.category}</p>
-                    <h3 className="font-semibold">{formula.name}</h3>
-                  </div>
-                  <Badge>Formula</Badge>
-                </div>
-                <p className="mt-2 font-mono text-sm text-slate-600">{formula.formula}</p>
-                <p className="mt-2 text-sm text-slate-500">
-                  {'description' in formula ? formula.description : formula.plainMeaning}
-                </p>
-              </Link>
-            ))}
-          </div>
-
-          {filtered.length === 0 && (
-            <Card title="No matching calculator">
-              <p>Try a broader search term, such as EOQ, forecasting or productivity.</p>
-            </Card>
+        <div className="mt-4 rounded-2xl border border-[#E6E1F2] bg-[#FBF7EC] p-4">
+          <p className="text-xs font-bold uppercase tracking-wide text-[#9A93AD]">
+            Result
+          </p>
+          {canCalculate && Number.isFinite(result) ? (
+            <p className="mt-1 text-2xl font-extrabold text-[#241349]">
+              {solveLabel} = {result.toFixed(4)}
+            </p>
+          ) : (
+            <p className="mt-1 text-sm text-slate-600">
+              Enter all required values to calculate.
+            </p>
           )}
-        </>
-      )}
+        </div>
+      </Card>
+
+      <Card title="Search calculators" tone="white">
+        <Input
+          value={query}
+          onChange={setQuery}
+          placeholder="Search EOQ, exponential smoothing, MAD, ROP..."
+        />
+
+        <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+          {filtered.map((formula) => (
+            <button
+              key={formula.id}
+              onClick={() => updateFormula(formula.id)}
+              className="block rounded-lg border border-slate-200 p-4 text-left hover:border-[#3B1D6E] hover:bg-slate-50"
+            >
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <p className="text-xs font-medium text-slate-500">
+                    {formula.category}
+                  </p>
+                  <h3 className="font-semibold text-slate-900">{formula.name}</h3>
+                </div>
+                <Badge>Formula</Badge>
+              </div>
+
+              <p className="mt-2 font-mono text-sm text-slate-600">
+                {formula.formula}
+              </p>
+              <p className="mt-2 text-sm text-slate-500">
+                {formula.description}
+              </p>
+
+              <div className="mt-3">
+                <Link
+                  to={`/${id}/formulas/${formula.id}`}
+                  className="text-sm font-bold text-[#3B1D6E] hover:underline"
+                >
+                  View formula details
+                </Link>
+              </div>
+            </button>
+          ))}
+        </div>
+
+        {filtered.length === 0 && (
+          <div className="mt-4 rounded-2xl border border-[#E6E1F2] bg-[#FBF7EC] p-4">
+            <p>Try a broader search term, such as EOQ, forecasting or productivity.</p>
+          </div>
+        )}
+      </Card>
 
       <Card title="How to use this hub" tone="gold">
         <BulletList
           items={[
-            'Select a calculator from the quick access tiles above',
-            'Enter your values and click Calculate',
-            'Results show the calculation and interpretation',
-            'Click "View formula details" for step-by-step guidance',
-            'Link to worked examples for exam practice',
+            "Select a calculator from the dropdown or search tiles.",
+            "Choose the variable you want to solve for.",
+            "Enter the remaining known values.",
+            "Use the result in your exam answer, but always explain what the number means.",
+            "For theory context, open the formula detail page.",
           ]}
         />
       </Card>

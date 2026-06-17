@@ -36,6 +36,7 @@ export default function App() {
         <Route path="/references" element={<ReferencesPage />} />
 
         <Route path="/:moduleId" element={<ModuleHomePage />} />
+
         <Route path="/:moduleId/units" element={<UnitsPage />} />
         <Route path="/:moduleId/units/:unitId" element={<UnitDetailPage />} />
 
@@ -56,8 +57,11 @@ export default function App() {
         <Route path="/:moduleId/formulas" element={<FormulasPage />} />
         <Route path="/:moduleId/formula-library" element={<FormulaLibraryPage />} />
         <Route path="/:moduleId/formulas/:formulaId" element={<FormulaDetailPage />} />
+
         <Route path="/:moduleId/applied-calculations" element={<AppliedCalculationsPage />} />
         <Route path="/:moduleId/calculator" element={<CalculatorHubPage />} />
+        <Route path="/:moduleId/calculators" element={<CalculatorHubPage />} />
+        <Route path="/:moduleId/calculators/:formulaId" element={<CalculatorHubPage />} />
 
         <Route path="/:moduleId/question-classifier" element={<QuestionClassifierPage />} />
         <Route path="/:moduleId/mistake-log" element={<MistakeLogPage />} />
