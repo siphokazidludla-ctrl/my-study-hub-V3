@@ -1,4 +1,3 @@
-import PastPaperDetailPage from "./pages/PastPaperDetailPage";
 import { Route, Routes } from "react-router-dom";
 import Layout from "./components/Layout";
 import HomePage from "./pages/HomePage";
@@ -10,6 +9,7 @@ import TheoryDetailPage from "./pages/TheoryDetailPage";
 import CasesPage from "./pages/CasesPage";
 import CaseDetailPage from "./pages/CaseDetailPage";
 import PastPapersPage from "./pages/PastPapersPage";
+import PastPaperDetailPage from "./pages/PastPaperDetailPage";
 import ExamBuilderPage from "./pages/ExamBuilderPage";
 import ParagraphBankPage from "./pages/ParagraphBankPage";
 import ChecklistPage from "./pages/ChecklistPage";
@@ -51,6 +51,8 @@ export default function App() {
         <Route path="/:moduleId/cases/:caseId" element={<CaseDetailPage />} />
 
         <Route path="/:moduleId/past-papers" element={<PastPapersPage />} />
+            <Route path="/:moduleId/past-papers" element={<PastPapersPage />} />
+<Route path="/:moduleId/past-papers/:paperId" element={<PastPaperDetailPage />} />
         <Route path="/:moduleId/exam-builder" element={<ExamBuilderPage />} />
         <Route path="/:moduleId/paragraph-bank" element={<ParagraphBankPage />} />
         <Route path="/:moduleId/checklist" element={<ChecklistPage />} />
@@ -66,8 +68,7 @@ export default function App() {
 
         <Route path="/:moduleId/question-classifier" element={<QuestionClassifierPage />} />
         <Route path="/:moduleId/mistake-log" element={<MistakeLogPage />} />
-        <Route path="/:moduleId/past-papers" element={<PastPapersPage />} />
-<Route path="/:moduleId/past-papers/:paperId" element={<PastPaperDetailPage />} />
+    
       </Route>
     </Routes>
   );
