@@ -51,8 +51,10 @@ export default function App() {
         <Route path="/:moduleId/cases/:caseId" element={<CaseDetailPage />} />
 
         <Route path="/:moduleId/past-papers" element={<PastPapersPage />} />
-            <Route path="/:moduleId/past-papers" element={<PastPapersPage />} />
-<Route path="/:moduleId/past-papers/:paperId" element={<PastPaperDetailPage />} />
+<Route
+  path="/:moduleId/past-papers/:paperId"
+  element={<PastPaperDetailPage />}
+/>
         <Route path="/:moduleId/exam-builder" element={<ExamBuilderPage />} />
         <Route path="/:moduleId/paragraph-bank" element={<ParagraphBankPage />} />
         <Route path="/:moduleId/checklist" element={<ChecklistPage />} />
