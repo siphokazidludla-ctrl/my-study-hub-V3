@@ -1,3 +1,4 @@
+import PastPaperDetailPage from "./pages/PastPaperDetailPage";
 import { Route, Routes } from "react-router-dom";
 import Layout from "./components/Layout";
 import HomePage from "./pages/HomePage";
@@ -65,6 +66,8 @@ export default function App() {
 
         <Route path="/:moduleId/question-classifier" element={<QuestionClassifierPage />} />
         <Route path="/:moduleId/mistake-log" element={<MistakeLogPage />} />
+        <Route path="/:moduleId/past-papers" element={<PastPapersPage />} />
+<Route path="/:moduleId/past-papers/:paperId" element={<PastPaperDetailPage />} />
       </Route>
     </Routes>
   );
