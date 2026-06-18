@@ -26,11 +26,48 @@ import ConceptsPage from "./pages/ConceptsPage";
 import ConceptDetailPage from "./pages/ConceptDetailPage";
 import OrbApp from "./ob/OrbApp";
 
+// --- Marketing pages (were built but never routed) ---
+import LandingPage from "./pages/marketing/LandingPage";
+import PricingPage from "./pages/marketing/PricingPage";
+import FeaturesPage from "./pages/marketing/FeaturesPage";
+import AboutPage from "./pages/marketing/AboutPage";
+import ContactPage from "./pages/marketing/ContactPage";
+import DisclaimerPage from "./pages/marketing/DisclaimerPage";
+import PrivacyPage from "./pages/marketing/PrivacyPage";
+import TermsPage from "./pages/marketing/TermsPage";
+
+// --- Auth pages (were built but never routed) ---
+import SignInPage from "./pages/auth/SignInPage";
+import SignUpPage from "./pages/auth/SignUpPage";
+import AccountPage from "./pages/auth/AccountPage";
+import CheckoutPage from "./pages/auth/CheckoutPage";
+
+// --- 404 ---
+import NotFound from "./pages/NotFound";
+
 export default function App() {
   return (
     <Routes>
+      {/* ORB801 runs as its own sub-app */}
       <Route path="/ob/*" element={<OrbApp />} />
 
+      {/* Standalone marketing pages (no study layout) */}
+      <Route path="/landing" element={<LandingPage />} />
+      <Route path="/pricing" element={<PricingPage />} />
+      <Route path="/features" element={<FeaturesPage />} />
+      <Route path="/about" element={<AboutPage />} />
+      <Route path="/contact" element={<ContactPage />} />
+      <Route path="/disclaimer" element={<DisclaimerPage />} />
+      <Route path="/privacy" element={<PrivacyPage />} />
+      <Route path="/terms" element={<TermsPage />} />
+
+      {/* Standalone auth pages (no study layout) */}
+      <Route path="/signin" element={<SignInPage />} />
+      <Route path="/signup" element={<SignUpPage />} />
+      <Route path="/account" element={<AccountPage />} />
+      <Route path="/checkout" element={<CheckoutPage />} />
+
+      {/* Study app */}
       <Route element={<Layout />}>
         <Route path="/" element={<HomePage />} />
         <Route path="/command-words" element={<CommandWordsPage />} />
@@ -51,10 +88,8 @@ export default function App() {
         <Route path="/:moduleId/cases/:caseId" element={<CaseDetailPage />} />
 
         <Route path="/:moduleId/past-papers" element={<PastPapersPage />} />
-<Route
-  path="/:moduleId/past-papers/:paperId"
-  element={<PastPaperDetailPage />}
-/>
+        <Route path="/:moduleId/past-papers/:paperId" element={<PastPaperDetailPage />} />
+
         <Route path="/:moduleId/exam-builder" element={<ExamBuilderPage />} />
         <Route path="/:moduleId/paragraph-bank" element={<ParagraphBankPage />} />
         <Route path="/:moduleId/checklist" element={<ChecklistPage />} />
@@ -70,7 +105,9 @@ export default function App() {
 
         <Route path="/:moduleId/question-classifier" element={<QuestionClassifierPage />} />
         <Route path="/:moduleId/mistake-log" element={<MistakeLogPage />} />
-    
+
+        {/* 404 fallback inside the study layout */}
+        <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
   );

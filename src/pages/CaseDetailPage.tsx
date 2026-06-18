@@ -2,7 +2,7 @@ import { Link, useParams } from 'react-router-dom';
 import { Card, PageHeading, Badge, BulletList, LinkCard } from '../components/ui';
 import { useModule } from './helpers';
 import { CASES } from '../data/cases';
-import { THEORIES } from '../data/theories';
+import { THEORIES } from '../data/theorie';
 import { getOMCase, OMCase } from '../data/modules/om';
 
 const CASE_GUIDES: Record<string, {

@@ -18,8 +18,9 @@ import {
   ConflictPowerPoliticsPage,
   StressWellbeingPage,
 } from "./pages/HubRoutes";
+import NotFound from "../pages/NotFound";
 
-export default function App() {
+export default function OrbApp() {
   return (
     <Routes>
       <Route element={<Layout />}>
@@ -39,6 +40,8 @@ export default function App() {
         <Route path="past-papers" element={<PastPapersPage />} />
         <Route path="command-words" element={<CommandWordsPage />} />
         <Route path="checklist" element={<ChecklistPage />} />
+        {/* 404 inside the ORB hub */}
+        <Route path="*" element={<NotFound homeTo="/ob" homeLabel="Back to ORB hub" />} />
       </Route>
     </Routes>
   );

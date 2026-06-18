@@ -1,5 +1,5 @@
 import { OM_UNITS } from './omUnits';
-import { THEORIES } from './theories';
+import { THEORIES } from './theorie';
 import { CASES } from './cases';
 
 type FormulaCard = {
