@@ -105,6 +105,12 @@ export default function FormulaDetailPage() {
             </Card>
           )}
 
+          {'whenNotToUse' in displayFormula && displayFormula.whenNotToUse && (
+            <Card title="When not to use without adjustment" tone="gold">
+              <BulletList items={displayFormula.whenNotToUse} />
+            </Card>
+          )}
+
           {workedExample && (
             <Card title="Worked example" tone="gold">
               <div className="space-y-3">
@@ -179,20 +185,24 @@ export default function FormulaDetailPage() {
         <aside className="space-y-4">
           <Card title="Quick actions" tone="gold">
             <div className="space-y-2">
-              <Link
-                to={`/${id}/calculators/${displayFormula.id}`}
-                className="block rounded-lg border border-[#3B1D6E] p-3 hover:bg-slate-50"
-              >
-                <p className="font-semibold text-[#3B1D6E]">Open calculator</p>
-                <p className="text-sm text-slate-600">Use the interactive calculator for this formula</p>
-              </Link>
-              <Link
-                to={`/${id}/applied-calculations/${displayFormula.id}`}
-                className="block rounded-lg border border-slate-300 p-3 hover:bg-slate-50"
-              >
-                <p className="font-semibold text-slate-700">See worked examples</p>
-                <p className="text-sm text-slate-600">Step-by-step past paper solutions</p>
-              </Link>
+              {id === 'om' && (
+                <>
+                  <Link
+                    to={`/${id}/calculators/${displayFormula.id}`}
+                    className="block rounded-lg border border-[#3B1D6E] p-3 hover:bg-slate-50"
+                  >
+                    <p className="font-semibold text-[#3B1D6E]">Open calculator</p>
+                    <p className="text-sm text-slate-600">Use the interactive calculator for this formula</p>
+                  </Link>
+                  <Link
+                    to={`/${id}/applied-calculations/${displayFormula.id}`}
+                    className="block rounded-lg border border-slate-300 p-3 hover:bg-slate-50"
+                  >
+                    <p className="font-semibold text-slate-700">See worked examples</p>
+                    <p className="text-sm text-slate-600">Step-by-step past paper solutions</p>
+                  </Link>
+                </>
+              )}
               <Link
                 to={`/${id}/exam-builder`}
                 className="block rounded-lg border border-slate-300 p-3 hover:bg-slate-50"
@@ -229,9 +239,11 @@ export default function FormulaDetailPage() {
         <Link className="font-bold text-[#3B1D6E]" to={`/${id}/formula-library`}>
           ← Back to formula library
         </Link>
-        <Link className="font-bold text-slate-500" to={`/${id}/calculators`}>
-          Go to calculator hub →
-        </Link>
+        {id === 'om' && (
+          <Link className="font-bold text-slate-500" to={`/${id}/calculators`}>
+            Go to calculator hub →
+          </Link>
+        )}
       </div>
     </div>
   );

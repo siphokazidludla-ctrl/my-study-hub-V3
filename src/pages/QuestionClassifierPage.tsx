@@ -381,6 +381,17 @@ export default function QuestionClassifierPage() {
     setMatchedKeywords([]);
   }
 
+  if (id !== 'om') {
+    return (
+      <Card title="Question classifier is only available for OM" tone="gold">
+        <p>
+          Calculation classification is currently part of Operations Management. Use the
+          {` ${module.code} `}unit, theory, case and exam tools for this module.
+        </p>
+      </Card>
+    );
+  }
+
   return (
     <div className="space-y-5">
       <PageHeading

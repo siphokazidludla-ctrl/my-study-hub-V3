@@ -39,6 +39,17 @@ export default function CalculatorHubPage() {
     );
   }, [query]);
 
+  if (id !== "om") {
+    return (
+      <Card title="Calculator hub is only available for OM" tone="gold">
+        <p>
+          Formula calculators are currently part of Operations Management. Use the
+          {` ${module.code} `}unit, theory, case and exam tools for this module.
+        </p>
+      </Card>
+    );
+  }
+
   function updateFormula(nextId: string) {
     const next = getOMCalculator(nextId) ?? OM_CALCULATORS[0];
     const nextSolveOptions = next.variables.filter(

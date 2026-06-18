@@ -7,6 +7,17 @@ export default function AppliedCalculationsPage() {
   const { id, module } = useModule();
   const { formulaId } = useParams();
 
+  if (id !== 'om') {
+    return (
+      <Card title="Applied calculations are only available for OM" tone="gold">
+        <p>
+          Worked calculation examples are currently part of Operations Management. Use the
+          {` ${module.code} `}unit, theory, case and exam tools for this module.
+        </p>
+      </Card>
+    );
+  }
+
   const selectedFormula = formulaId ? getOMFormula(formulaId) : undefined;
   const selectedExample = formulaId ? getOMWorkedExampleByFormula(formulaId) : undefined;
 

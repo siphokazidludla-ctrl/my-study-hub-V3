@@ -8,6 +8,7 @@ export type OMFormula = {
   plainMeaning: string;
   variables: { symbol: string; name: string; unit: string }[];
   whenToUse: string[];
+  whenNotToUse: string[];
   howToApply: string[];
   commonMistakes: string[];
   calculatorPath: string;
@@ -36,6 +37,11 @@ export const OM_FORMULAS: OMFormula[] = [
       'When ordering costs and holding costs are known',
       'When you need to minimise total inventory cost',
       'When stockouts are unacceptable',
+    ],
+    whenNotToUse: [
+      'When demand or lead time is highly volatile unless safety stock and review rules are added',
+      'When quantity discounts, perishability, storage limits, or supplier constraints dominate the decision',
+      'When ordering cost or annual holding cost cannot be estimated reliably',
     ],
     howToApply: [
       'Step 1: Identify annual demand (D) from the case data',
@@ -76,6 +82,11 @@ export const OM_FORMULAS: OMFormula[] = [
       'When demand variability requires safety stock',
       'To prevent stockouts during the replenishment period',
     ],
+    whenNotToUse: [
+      'When daily demand and lead time are not measured in compatible time units',
+      'When there is no reliable lead-time estimate from suppliers or internal records',
+      'When demand patterns have changed and the reorder point has not been reviewed',
+    ],
     howToApply: [
       'Step 1: Calculate average daily demand from historical data',
       'Step 2: Determine the supplier lead time in days',
@@ -114,6 +125,11 @@ export const OM_FORMULAS: OMFormula[] = [
       'When comparing different forecasting approaches',
       'To track forecast performance over time',
       'When you need a simple measure of forecast error',
+    ],
+    whenNotToUse: [
+      'When you need to know whether forecasts are consistently too high or too low, because MAD removes the sign of the error',
+      'When comparing products with very different demand scales unless you add a percentage-based measure',
+      'When forecast accuracy must be judged alongside service level, cost impact, or bias',
     ],
     howToApply: [
       'Step 1: Collect actual demand and forecast values for each period',
@@ -154,6 +170,11 @@ export const OM_FORMULAS: OMFormula[] = [
       'When a simple moving average is too slow to respond',
       'To smooth out random fluctuations while capturing trends',
     ],
+    whenNotToUse: [
+      'When the weights are arbitrary and cannot be justified from the business context',
+      'When demand has strong seasonality unless seasonal adjustment is added',
+      'When older periods are more representative than recent abnormal demand',
+    ],
     howToApply: [
       'Step 1: Select the number of periods to include',
       'Step 2: Assign weights to each period (higher for recent)',
@@ -191,6 +212,11 @@ export const OM_FORMULAS: OMFormula[] = [
       'To compare performance across time periods',
       'To benchmark against competitors',
       'For multi-factor productivity analysis',
+    ],
+    whenNotToUse: [
+      'When output quality, customer service, safety, or sustainability are the main performance concerns',
+      'When input and output units are inconsistent or not comparable across the periods being assessed',
+      'When comparing unlike operations without explaining differences in process, technology, or product mix',
     ],
     howToApply: [
       'Step 1: Define the output measure (units produced, services delivered)',
@@ -230,6 +256,11 @@ export const OM_FORMULAS: OMFormula[] = [
       'To identify underused or overstretched resources',
       'For strategic capacity planning',
     ],
+    whenNotToUse: [
+      'When effective capacity is the relevant benchmark rather than theoretical design capacity',
+      'When planned downtime, maintenance, staffing limits, or quality losses are excluded from the analysis',
+      'When the conclusion assumes higher utilisation is always better without considering service delays or bottlenecks',
+    ],
     howToApply: [
       'Step 1: Determine the design capacity (maximum output under ideal conditions)',
       'Step 2: Measure the actual current output',
@@ -267,6 +298,11 @@ export const OM_FORMULAS: OMFormula[] = [
       'When design capacity is not achievable under normal conditions',
       'For operational performance evaluation',
       'To identify improvement opportunities',
+    ],
+    whenNotToUse: [
+      'When effective capacity has not been estimated realistically',
+      'When actual output includes defective or reworked units without adjustment',
+      'When the analysis needs customer waiting time, service quality, or cost performance rather than capacity performance only',
     ],
     howToApply: [
       'Step 1: Determine effective capacity (realistic maximum considering constraints)',
@@ -306,6 +342,11 @@ export const OM_FORMULAS: OMFormula[] = [
       'When designing waiting lines or queuing systems',
       'To capacity-plan for service operations',
       'For analysing bottlenecks in production lines',
+    ],
+    whenNotToUse: [
+      'When arrivals exceed service capability and the queue is not stable',
+      'When arrival rate and waiting time are not expressed in the same time unit',
+      'When the case gives total time in the system but the formula specifically needs waiting time in the queue',
     ],
     howToApply: [
       'Step 1: Measure or estimate the arrival rate (λ)',
@@ -347,6 +388,11 @@ export const OM_FORMULAS: OMFormula[] = [
       'To verify that EOQ minimises total cost',
       'For cost-benefit analysis of inventory decisions',
     ],
+    whenNotToUse: [
+      'When demand, ordering cost, and holding cost are not all annualised or measured on the same basis',
+      'When purchase price, quantity discounts, stockout costs, or capacity limits dominate the inventory decision',
+      'When the order quantity policy is unknown or changes frequently',
+    ],
     howToApply: [
       'Step 1: Identify the order quantity (Q)',
       'Step 2: Calculate ordering cost: (D/Q) × S',
@@ -384,6 +430,11 @@ export const OM_FORMULAS: OMFormula[] = [
       'For stable demand patterns with random variation',
       'As a baseline forecast for comparison',
       'When simplicity and transparency are needed',
+    ],
+    whenNotToUse: [
+      'When demand has strong trend or seasonality unless the method is adjusted',
+      'When recent shocks are abnormal and should not drive the next forecast',
+      'When the selected period window makes the forecast too slow for the decision being made',
     ],
     howToApply: [
       'Step 1: Select the number of periods (n)',
@@ -425,6 +476,11 @@ export const OM_FORMULAS: OMFormula[] = [
       'When you want to automatically weight recent data more',
       'For time series without strong seasonality',
     ],
+    whenNotToUse: [
+      'When the smoothing constant is chosen without justification or review',
+      'When demand has strong trend or seasonality and no adjusted smoothing method is used',
+      'When there is no reasonable initial forecast to start the calculation',
+    ],
     howToApply: [
       'Step 1: Choose the smoothing constant α (typically 0.1 to 0.3)',
       'Step 2: Get the previous period forecast and actual demand',
@@ -462,6 +518,11 @@ export const OM_FORMULAS: OMFormula[] = [
       'To compare holding costs for different order quantities',
       'For EOQ verification and analysis',
       'When budgeting for inventory costs',
+    ],
+    whenNotToUse: [
+      'When the Q/2 average inventory assumption does not reflect how stock is actually replenished or consumed',
+      'When holding cost is not stated on an annual per-unit basis',
+      'When storage, insurance, risk, or obsolescence costs have been excluded from the holding cost estimate',
     ],
     howToApply: [
       'Step 1: Determine the order quantity (Q)',
@@ -501,6 +562,11 @@ export const OM_FORMULAS: OMFormula[] = [
       'To compare ordering costs for different order quantities',
       'For EOQ verification and analysis',
       'When budgeting for procurement costs',
+    ],
+    whenNotToUse: [
+      'When demand, order quantity, and order cost are not stated on a consistent annual basis',
+      'When ordering cost varies materially by supplier, quantity, or ordering channel',
+      'When the order quantity is unknown or does not represent the actual replenishment policy',
     ],
     howToApply: [
       'Step 1: Determine annual demand (D)',

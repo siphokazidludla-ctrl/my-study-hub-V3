@@ -8,7 +8,7 @@ const globalLinks = [
   { to: "/references", label: "References" },
 ];
 
-const tools = [
+const sharedTools = [
   "units",
   "theories",
   "cases",
@@ -16,8 +16,16 @@ const tools = [
   "exam-builder",
   "paragraph-bank",
   "checklist",
-  "calculator",
+];
+
+const omTools = [
+  ...sharedTools,
   "formulas",
+  "formula-library",
+  "calculators",
+  "applied-calculations",
+  "question-classifier",
+  "mistake-log",
 ];
 
 const moduleTools: Record<string, string[]> = {
@@ -32,9 +40,9 @@ const moduleTools: Record<string, string[]> = {
     "command-words",
     "references",
   ],
-  ikm: tools,
-  om: tools,
-  mm: tools,
+  ikm: sharedTools,
+  om: omTools,
+  mm: sharedTools,
 };
 
 export default function Layout() {
@@ -87,7 +95,7 @@ export default function Layout() {
               </Link>
 
               <div className="mt-1 grid grid-cols-2 gap-1">
-                {(moduleTools[m.id] ?? tools).map((tool) => (
+                {(moduleTools[m.id] ?? sharedTools).map((tool) => (
                   <Link
                     key={tool}
                     to={`/${m.id}/${tool}`}

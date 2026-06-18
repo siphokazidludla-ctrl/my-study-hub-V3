@@ -279,14 +279,16 @@ export default function CaseDetailPage() {
                 <p className="font-semibold text-[#3B1D6E]">Build exam answer</p>
                 <p className="text-sm text-slate-600">Use case analysis in structured answer</p>
               </Link>
-              <Link
-                to={`/${id}/question-classifier`}
-                className="block rounded-lg border border-slate-300 p-3 hover:bg-slate-50"
-              >
-                <p className="font-semibold text-slate-700">Classify question</p>
-                <p className="text-sm text-slate-600">Analyse similar past paper questions</p>
-              </Link>
-              {(guide?.relevantFormulas?.[0] || omCase?.relevantFormulas?.[0]) && (
+              {id === 'om' && (
+                <Link
+                  to={`/${id}/question-classifier`}
+                  className="block rounded-lg border border-slate-300 p-3 hover:bg-slate-50"
+                >
+                  <p className="font-semibold text-slate-700">Classify question</p>
+                  <p className="text-sm text-slate-600">Analyse similar past paper questions</p>
+                </Link>
+              )}
+              {id === 'om' && (guide?.relevantFormulas?.[0] || omCase?.relevantFormulas?.[0]) && (
                 <Link
                   to={`/${id}/applied-calculations/${(guide?.relevantFormulas?.[0] || omCase?.relevantFormulas?.[0] || '').toLowerCase().replace(/\s+/g, '-')}`}
                   className="block rounded-lg border border-slate-300 p-3 hover:bg-slate-50"
@@ -298,7 +300,7 @@ export default function CaseDetailPage() {
             </div>
           </Card>
 
-          {(guide?.relevantFormulas || omCase?.relevantFormulas) && (
+          {id === 'om' && (guide?.relevantFormulas || omCase?.relevantFormulas) && (
             <Card title="Related calculators">
               <div className="space-y-2">
                 {(guide?.relevantFormulas || omCase?.relevantFormulas || []).slice(0, 4).map((formula) => (

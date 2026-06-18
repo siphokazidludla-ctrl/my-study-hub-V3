@@ -39,6 +39,17 @@ export default function FormulaLibraryPage() {
     return ["All", ...Array.from(cats)];
   }, [omFormulas]);
 
+  if (id !== "om") {
+    return (
+      <Card title="Formula library is only available for OM" tone="gold">
+        <p>
+          The interactive formula library is currently part of Operations Management.
+          Use the {module.code} unit, theory, case and exam tools for this module.
+        </p>
+      </Card>
+    );
+  }
+
   return (
     <div className="space-y-5">
       <PageHeading
