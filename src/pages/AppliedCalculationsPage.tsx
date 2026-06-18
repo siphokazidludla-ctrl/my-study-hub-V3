@@ -10,6 +10,50 @@ export default function AppliedCalculationsPage() {
   const selectedFormula = formulaId ? getOMFormula(formulaId) : undefined;
   const selectedExample = formulaId ? getOMWorkedExampleByFormula(formulaId) : undefined;
 
+  if (formulaId && selectedFormula && !selectedExample) {
+    return (
+      <div className="space-y-5">
+        <PageHeading
+          kicker={`${module.code} Worked Example`}
+          title={`${selectedFormula.name} worked example`}
+          sub="A formula card is available, but a verified worked example has not been added yet."
+        />
+
+        <Link to={`/${id}/applied-calculations`} className="text-sm font-medium text-[#3B1D6E] hover:underline">
+          ← Back to all worked examples
+        </Link>
+
+        <Card title="Missing worked example" tone="gold">
+          <p>
+            The app has the formula explanation and calculator for this topic, but no step-by-step worked solution has been verified yet.
+          </p>
+          <div className="mt-3 flex flex-wrap gap-2">
+            <Link
+              to={`/${id}/formulas/${selectedFormula.id}`}
+              className="rounded-full bg-[#3B1D6E] px-4 py-1.5 text-sm font-medium text-white hover:bg-[#2d1654]"
+            >
+              View formula
+            </Link>
+            <Link
+              to={`/${id}/calculators/${selectedFormula.id}`}
+              className="rounded-full border border-[#3B1D6E] px-4 py-1.5 text-sm font-medium text-[#3B1D6E] hover:bg-[#3B1D6E] hover:text-white"
+            >
+              Open calculator
+            </Link>
+          </div>
+        </Card>
+      </div>
+    );
+  }
+
+  if (formulaId && !selectedFormula) {
+    return (
+      <Card title="Worked example not found" tone="gold">
+        <p>No OM formula or worked example is available for this ID.</p>
+      </Card>
+    );
+  }
+
   if (formulaId && selectedFormula && selectedExample) {
     return (
       <div className="space-y-5">

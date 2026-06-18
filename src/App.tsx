@@ -109,6 +109,7 @@ export default function App() {
           <Route path="formulas/:formulaId" element={<FormulaDetailPage />} />
 
           <Route path="applied-calculations" element={<AppliedCalculationsPage />} />
+          <Route path="applied-calculations/:formulaId" element={<AppliedCalculationsPage />} />
           <Route path="calculator" element={<CalculatorHubPage />} />
           <Route path="calculators" element={<CalculatorHubPage />} />
           <Route path="calculators/:formulaId" element={<CalculatorHubPage />} />
