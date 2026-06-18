@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { OB_COMMAND_WORD_STRUCTURES } from "../data";
 
 const commandWords = [
   {
@@ -107,7 +108,7 @@ const commandWords = [
     outline: ["Name concept", "Briefly define it", "Point to case evidence"],
     example: "The issue is role ambiguity because employees are unclear about expectations.",
     mistake: "Writing a long essay when only naming is required.",
-    links: [["Case Analyzer", "/case-analyzer"], ["Theories", "/ob/theories"]],
+    links: [["Case Analyzer", "/ob/case-analyzer"], ["Theories", "/ob/theories"]],
   },
   {
     word: "Outline",
@@ -160,6 +161,37 @@ export default function CommandWordsPage() {
           and links to useful sections.
         </p>
       </header>
+
+      <section className="rounded-3xl border border-[#E6E1F2] bg-white p-4 shadow-sm">
+        <div className="mb-3">
+          <p className="text-[11px] font-extrabold uppercase tracking-[0.14em] text-[#5B3A9E]">
+            Quick structure table
+          </p>
+          <p className="mt-1 text-sm text-[#564E6C]">
+            Use this as the fast check before you start writing.
+          </p>
+        </div>
+        <div className="overflow-x-auto rounded-2xl border border-[#E6E1F2]">
+          <table className="w-full min-w-[680px] border-collapse bg-white text-sm">
+            <thead className="bg-[#F4F1FA] text-[#241349]">
+              <tr>
+                <th className="border-b border-[#E6E1F2] px-4 py-3 text-left font-extrabold">Command word</th>
+                <th className="border-b border-[#E6E1F2] px-4 py-3 text-left font-extrabold">Marker wants</th>
+                <th className="border-b border-[#E6E1F2] px-4 py-3 text-left font-extrabold">Structure</th>
+              </tr>
+            </thead>
+            <tbody>
+              {OB_COMMAND_WORD_STRUCTURES.map((item) => (
+                <tr key={item.command} className="border-b border-[#E6E1F2] last:border-b-0">
+                  <td className="px-4 py-3 font-semibold text-[#241349]">{item.command}</td>
+                  <td className="px-4 py-3 text-[#564E6C]">{item.markerWants}</td>
+                  <td className="px-4 py-3 text-[#564E6C]">{item.structure}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
 
       <div className="grid gap-4 md:grid-cols-2">
         {commandWords.map((item) => (

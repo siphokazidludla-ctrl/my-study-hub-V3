@@ -30,7 +30,7 @@ export const IKM_UNITS: Unit[] = [
     assessmentWeight: 5,
     assessmentNote:
       'High frequency. "Strategic business objectives of information systems" and "dimensions of an information system" recur verbatim in past papers, usually with Assess, Explain or Justify.',
-    theoryIds: ['ikm-dikw', 'ikm-strategic-objectives', 'ikm-is-dimensions'],
+    theoryIds: ['ikm-dikw', 'ikm-is-strategy', 'ikm-is-strategy'],
     prescribedChapters: 'Laudon and Laudon (2023), Ch. 1-2',
   },
   {
@@ -58,7 +58,7 @@ export const IKM_UNITS: Unit[] = [
     assessmentWeight: 4,
     assessmentNote:
       '"Impact of the Internet on competitive forces and industry structure" appears repeatedly (Discuss). Often paired with Porter-style analysis.',
-    theoryIds: ['ikm-platform', 'ikm-internet-competitive-forces'],
+    theoryIds: ['ikm-is-strategy', 'ikm-is-strategy'],
     prescribedChapters: 'Laudon and Laudon (2023), Ch. 3, 10',
   },
   {
@@ -87,7 +87,7 @@ export const IKM_UNITS: Unit[] = [
     assessmentWeight: 5,
     assessmentNote:
       'Very high. "Concept of organisational knowledge", "organisational culture and knowledge management" (Toyota) and OL vs learning organisation are recurrent Discuss questions.',
-    theoryIds: ['ikm-seci', 'ikm-ol-vs-lo', 'ikm-tacit-explicit'],
+    theoryIds: ['ikm-tacit-explicit', 'ikm-learning-org', 'ikm-tacit-explicit'],
     prescribedChapters: 'Dalkir (2022); Hislop, Bosua and Helms (2023)',
   },
   {
@@ -143,7 +143,7 @@ export const IKM_UNITS: Unit[] = [
     assessmentWeight: 5,
     assessmentNote:
       'High. "Challenges of implementing a KMS and possible solutions" and "cloud-based KMS features" are direct past-paper questions (Report / Analyse). DBMS capabilities also appear.',
-    theoryIds: ['ikm-kms-types', 'ikm-kms-challenges'],
+    theoryIds: ['ikm-kms-types', 'ikm-kms-types'],
     prescribedChapters: 'Laudon and Laudon (2023), Ch. 11-12; Wahl (2024)',
   },
   {
@@ -198,7 +198,7 @@ export const IKM_UNITS: Unit[] = [
     keyConcepts: ['Intelligent enterprise', 'Future knowledge worker', 'Decolonial perspectives in KM', 'Strategic preparedness'],
     assessmentWeight: 3,
     assessmentNote: 'Medium. Often integrated into case-based Section A questions on emerging technology (ChatGPT, big data, smart cities).',
-    theoryIds: ['ikm-intelligent-enterprise'],
+    theoryIds: ['ikm-is-strategy'],
     prescribedChapters: 'Wahl (2024); MANCOSA IKM Module Guide (2026), Unit 7',
   },
   {
@@ -224,7 +224,7 @@ export const IKM_UNITS: Unit[] = [
     keyConcepts: ['Case analysis method', 'IKM consulting', 'Capstone strategy proposal', 'Theory-to-practice translation'],
     assessmentWeight: 4,
     assessmentNote: 'High in format terms: Section A is always a case extract with applied Critically evaluate / Recommend / Report questions.',
-    theoryIds: [],
+    theoryIds: ['ikm-dikw', 'ikm-km-cycle', 'ikm-km-strategy', 'ikm-is-strategy', 'ikm-info-governance', 'ikm-bsc', 'ikm-learning-org'],
     prescribedChapters: 'MANCOSA IKM Module Guide (2026), Unit 8',
   },
   {
@@ -253,7 +253,7 @@ export const IKM_UNITS: Unit[] = [
     assessmentWeight: 5,
     assessmentNote:
       'High. The BPR / BPM / Six Sigma case is a full 100-mark past paper (DMAIC vs DMADV, BPR vs BPM, success factors and failure rate). Heavily examined with Explain / Elaborate / Discuss.',
-    theoryIds: ['ikm-bpr', 'ikm-bpm', 'ikm-six-sigma'],
+    theoryIds: ['ikm-bpm', 'ikm-bpm', 'ikm-bpm'],
     prescribedChapters: 'MANCOSA IKM Module Guide (2026), Unit 9',
   },
   {

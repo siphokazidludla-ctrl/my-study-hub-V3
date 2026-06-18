@@ -2700,3 +2700,5 @@ export function theoryMatchesSearch(t: Theory, term: string) {
     .toLowerCase();
   return haystack.includes(q);
 }
+
+export * from "./workedSolutions";

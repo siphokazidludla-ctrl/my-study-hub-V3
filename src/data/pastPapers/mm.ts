@@ -5,7 +5,7 @@
 // Mapped to the MANCOSA MM Module Guide (2026) units 1-17.
 //
 // Referencing note: Kotler and Armstrong (2020) is the 2020+ prescribed text and
-// is used for in-text support. Kotler and Keller (2016) appears in the data layer
+// is used for in-text support. Kotler and Armstrong (2020) appears in the data layer
 // but is PRE-2020; per the brief it is avoided in worked solutions in favour of
 // Kotler and Armstrong (2020) and the MM Module Guide (2026).
 //
@@ -269,7 +269,7 @@ export const MM_PAST_PAPERS: PastPaper[] = [
         commandWords: ['Formulate', 'Outline'],
         prompt: 'Formulate a research title for the extract and outline eight research questions to solve the research problem.',
         unitIds: ['mm-4', 'mm-3'], theoryIds: [],
-        recommendedTheories: ['mm-research-process'],
+        recommendedTheories: ['mm-research'],
         answerPlan: [
           'Write a clear, focused research title naming variables and context (equity/diversity at the DTI).',
           'Outline eight research questions that are specific, researchable and aligned to the title.',
@@ -283,7 +283,7 @@ export const MM_PAST_PAPERS: PastPaper[] = [
         commandWords: ['State', 'Substantiate'],
         prompt: 'State the research problem and substantiate it with important literature.',
         unitIds: ['mm-4'], theoryIds: [],
-        recommendedTheories: ['mm-research-process'],
+        recommendedTheories: ['mm-research'],
         answerPlan: [
           'State a clear research problem (the gap/issue the study addresses).',
           'Substantiate with current (2020+) literature showing why the problem matters.',
@@ -298,7 +298,7 @@ export const MM_PAST_PAPERS: PastPaper[] = [
         commandWords: ['Search', 'Write'],
         prompt: '3.1 Find five academic articles (\u22643 years old) on diversity and equity (10). 3.2 Write a 500-word literature review referencing them (10).',
         unitIds: ['mm-4'], theoryIds: [],
-        recommendedTheories: ['mm-research-process'],
+        recommendedTheories: ['mm-research'],
         answerPlan: [
           'Identify five recent (2020+) peer-reviewed sources (respect the brief: no blogs/Wikipedia).',
           'Synthesise (not summarise) themes across the five; reference each using MANCOSA Harvard in-text style.',
@@ -431,7 +431,7 @@ export const MM_PAST_PAPERS: PastPaper[] = [
         commandWords: ['Critically discuss'],
         prompt: 'As a retail marketing manager, critically discuss how you would integrate different channel systems as new wholesaling/retailing institutions evolve.',
         unitIds: ['mm-13'], theoryIds: [],
-        recommendedTheories: ['mm-channels'],
+        recommendedTheories: ['mm-marketing-mix'],
         answerPlan: [
           'Define marketing channels and channel integration (multichannel/omnichannel; VMS).',
           'Discuss integrating physical, online and emerging channels; managing conflict and consistency.',
@@ -534,7 +534,7 @@ export const MM_PAST_PAPERS: PastPaper[] = [
         commandWords: ['Critically discuss'],
         prompt: '4.1 Advantages marketing managers have in observing the environment (10). 4.2 Components of a marketing information system (10).',
         unitIds: ['mm-3', 'mm-4'], theoryIds: ['mm-environment'],
-        recommendedTheories: ['mm-mis'],
+        recommendedTheories: ['mm-research'],
         answerPlan: [
           '4.1 Why marketers are best placed for environmental scanning (customer/market contact, intelligence systems).',
           '4.2 MIS components (Kotler and Armstrong, 2020): internal records, marketing intelligence, marketing research, and decision-support/analysis.',
@@ -561,7 +561,7 @@ export const MM_PAST_PAPERS: PastPaper[] = [
         commandWords: ['Assist', 'Conduct'],
         prompt: 'Refining attractive ideas into testable concepts: assist a company to conduct concept development and testing for a new product.',
         unitIds: ['mm-15'], theoryIds: [],
-        recommendedTheories: ['mm-npd'],
+        recommendedTheories: ['mm-marketing-mix'],
         answerPlan: [
           'Distinguish idea, concept and image.',
           'Concept development: turn the idea into detailed consumer concepts.',

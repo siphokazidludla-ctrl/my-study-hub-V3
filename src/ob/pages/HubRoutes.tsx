@@ -1,11 +1,11 @@
 import HubPage from "./HubPage";
 
 export function MotivationPage() {
-  return <HubPage hubId="motivation" backLink="/theories" backLabel="Theories" />;
+  return <HubPage hubId="motivation" backLink="/ob/theories" backLabel="Theories" />;
 }
 
 export function LeadershipPage() {
-  return <HubPage hubId="leadership" backLink="/theories" backLabel="Theories" />;
+  return <HubPage hubId="leadership" backLink="/ob/theories" backLabel="Theories" />;
 }
 
 export function CultureChangePage() {
@@ -30,16 +30,16 @@ export function CultureChangePage() {
         </p>
       </div>
 
-      <HubPage hubId="culture" backLink="/theories" backLabel="Theories" />
-      <HubPage hubId="change" backLink="/theories" backLabel="Theories" />
+      <HubPage hubId="culture" backLink="/ob/theories" backLabel="Theories" />
+      <HubPage hubId="change" backLink="/ob/theories" backLabel="Theories" />
     </div>
   );
 }
 
 export function ConflictPowerPoliticsPage() {
-  return <HubPage hubId="conflict" backLink="/theories" backLabel="Theories" />;
+  return <HubPage hubId="conflict" backLink="/ob/theories" backLabel="Theories" />;
 }
 
 export function StressWellbeingPage() {
-  return <HubPage hubId="stress" backLink="/theories" backLabel="Theories" />;
+  return <HubPage hubId="stress" backLink="/ob/theories" backLabel="Theories" />;
 }

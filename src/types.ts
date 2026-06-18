@@ -1,4 +1,4 @@
-export type ModuleId = 'ikm' | 'om' | 'mm';
+export type ModuleId = 'ob' | 'ikm' | 'om' | 'mm';
 
 export interface Reference {
   inText: string;

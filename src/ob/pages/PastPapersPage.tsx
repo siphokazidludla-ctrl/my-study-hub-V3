@@ -1,6 +1,13 @@
 import { Link } from "react-router-dom";
-import { PageHeading, SectionCard, Badge, BulletList, ClickCard } from "../components/ui";
-import { theories, pastPaperPatterns } from "../data";
+import { PageHeading, SectionCard, Badge, BulletList, ClickCard, SourceStatus } from "../components/ui";
+import {
+  OB_EXAM_STRATEGY,
+  OB_PAST_PAPER_THEMES,
+  OB_SOURCE_STATUS,
+  OB_WORKED_SOLUTIONS,
+  theories,
+  pastPaperPatterns,
+} from "../data";
 
 function getTheoryName(id: string) {
   return theories.find((t) => t.id === id)?.name ?? id;
@@ -26,6 +33,59 @@ export default function PastPapersPage() {
         >
           Open Command Word Decoder
         </Link>
+      </SectionCard>
+
+      <SourceStatus>{OB_SOURCE_STATUS}</SourceStatus>
+
+      <SectionCard title="Frequency map from uploaded ORB papers" tone="white">
+        <div className="overflow-x-auto rounded-2xl border border-[#E6E1F2]">
+          <table className="w-full min-w-[720px] border-collapse bg-white text-sm">
+            <thead className="bg-[#F4F1FA] text-[#241349]">
+              <tr>
+                <th className="border-b border-[#E6E1F2] px-4 py-3 text-left font-extrabold">Theme</th>
+                <th className="border-b border-[#E6E1F2] px-4 py-3 text-left font-extrabold">How often</th>
+                <th className="border-b border-[#E6E1F2] px-4 py-3 text-left font-extrabold">Typical command words</th>
+                <th className="border-b border-[#E6E1F2] px-4 py-3 text-left font-extrabold">Yield</th>
+              </tr>
+            </thead>
+            <tbody>
+              {OB_PAST_PAPER_THEMES.map((theme) => (
+                <tr key={theme.theme} className="border-b border-[#E6E1F2] last:border-b-0">
+                  <td className="px-4 py-3 font-semibold text-[#241349]">{theme.theme}</td>
+                  <td className="px-4 py-3 text-[#564E6C]">{theme.frequency}</td>
+                  <td className="px-4 py-3 text-[#564E6C]">{theme.commandWords}</td>
+                  <td className="px-4 py-3">
+                    <Badge tone={theme.yield === "Very high" ? "gold" : "mist"}>{theme.yield}</Badge>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </SectionCard>
+
+      <SectionCard title="Strategy that follows from the data" tone="gold">
+        <p className="text-sm text-[#564E6C]">{OB_EXAM_STRATEGY}</p>
+      </SectionCard>
+
+      <SectionCard
+        title="Worked model answers"
+        tone="white"
+        right={<Badge tone="mist">{OB_WORKED_SOLUTIONS.length} solutions</Badge>}
+      >
+        <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+          {OB_WORKED_SOLUTIONS.map((solution) => (
+            <ClickCard
+              key={solution.id}
+              eyebrow={solution.hub}
+              title={solution.title}
+              blurb={solution.question}
+              tags={[solution.commandWord, `${solution.answerPlan.length} answer-plan steps`]}
+              to={`/ob/past-papers/${solution.id}`}
+              accent={solution.hub === "Change" || solution.hub === "Conflict" ? "gold" : "royal"}
+            />
+          ))}
+        </div>
       </SectionCard>
 
       {pastPaperPatterns.map((pattern: any) => (

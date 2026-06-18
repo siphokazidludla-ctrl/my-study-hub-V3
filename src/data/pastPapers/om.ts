@@ -302,7 +302,7 @@ export const OM_PAST_PAPERS: PastPaper[] = [
         commandWords: ['Apply', 'Conduct a detailed analysis'],
         prompt: 'Applying Porter\u2019s methods on comparative advantage, analyse how the decision to relocate will affect Apple\u2019s operational competitive advantage.',
         unitIds: ['om-2', 'om-7'], theoryIds: ['om-operations-strategy', 'om-location'],
-        recommendedTheories: ['om-competitive-advantage'],
+        recommendedTheories: ['om-operations-strategy'],
         answerPlan: [
           'Define comparative advantage and Porter\u2019s view of national/locational competitive advantage (factor conditions, related and supporting industries/clusters, demand conditions, firm strategy/rivalry).',
           'Apply to Apple: loss of Asian supplier clusters, higher factor costs, scarce raw materials vs political/demand factors.',

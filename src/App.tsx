@@ -1,5 +1,6 @@
-import { Route, Routes } from "react-router-dom";
+import { Outlet, Route, Routes, useParams } from "react-router-dom";
 import Layout from "./components/Layout";
+import { MODULES } from "./data";
 import HomePage from "./pages/HomePage";
 import ModuleHomePage from "./pages/ModuleHomePage";
 import UnitsPage from "./pages/UnitsPage";
@@ -24,89 +25,98 @@ import QuestionClassifierPage from "./pages/QuestionClassifierPage";
 import MistakeLogPage from "./pages/MistakeLogPage";
 import ConceptsPage from "./pages/ConceptsPage";
 import ConceptDetailPage from "./pages/ConceptDetailPage";
-import OrbApp from "./ob/OrbApp";
-
-// --- Marketing pages (were built but never routed) ---
-import LandingPage from "./pages/marketing/LandingPage";
-import PricingPage from "./pages/marketing/PricingPage";
-import FeaturesPage from "./pages/marketing/FeaturesPage";
-import AboutPage from "./pages/marketing/AboutPage";
-import ContactPage from "./pages/marketing/ContactPage";
-import DisclaimerPage from "./pages/marketing/DisclaimerPage";
-import PrivacyPage from "./pages/marketing/PrivacyPage";
-import TermsPage from "./pages/marketing/TermsPage";
-
-// --- Auth pages (were built but never routed) ---
-import SignInPage from "./pages/auth/SignInPage";
-import SignUpPage from "./pages/auth/SignUpPage";
-import AccountPage from "./pages/auth/AccountPage";
-import CheckoutPage from "./pages/auth/CheckoutPage";
+import ObHomePage from "./ob/pages/HomePage";
+import ObUnitsPage from "./ob/pages/UnitsPage";
+import ObUnitDetailPage from "./ob/pages/UnitDetailPage";
+import ObTheoriesPage from "./ob/pages/TheoriesPage";
+import ObTheoryDetailPage from "./ob/pages/TheoryDetailPage";
+import ObCaseAnalyzerPage from "./ob/pages/CaseAnalyzerPage";
+import ObExamBuilderPage from "./ob/pages/ExamBuilderPage";
+import ObParagraphBankPage from "./ob/pages/ParagraphBankPage";
+import ObPastPapersPage from "./ob/pages/PastPapersPage";
+import ObPastPaperDetailPage from "./ob/pages/PastPaperDetailPage";
+import ObChecklistPage from "./ob/pages/ChecklistPage";
+import ObCommandWordsPage from "./ob/pages/CommandWordsPage";
+import ObReferencesPage from "./ob/pages/ReferencesPage";
+import {
+  MotivationPage,
+  LeadershipPage,
+  CultureChangePage,
+  ConflictPowerPoliticsPage,
+  StressWellbeingPage,
+} from "./ob/pages/HubRoutes";
 
 // --- 404 ---
 import NotFound from "./pages/NotFound";
 
+function ModuleRoute() {
+  const { moduleId } = useParams();
+  const isSupportedModule = MODULES.some((m) => m.id === moduleId && m.id !== "ob");
+  return isSupportedModule ? <Outlet /> : <NotFound />;
+}
+
 export default function App() {
   return (
     <Routes>
-      {/* ORB801 runs as its own sub-app */}
-      <Route path="/ob/*" element={<OrbApp />} />
-
-      {/* Standalone marketing pages (no study layout) */}
-      <Route path="/landing" element={<LandingPage />} />
-      <Route path="/pricing" element={<PricingPage />} />
-      <Route path="/features" element={<FeaturesPage />} />
-      <Route path="/about" element={<AboutPage />} />
-      <Route path="/contact" element={<ContactPage />} />
-      <Route path="/disclaimer" element={<DisclaimerPage />} />
-      <Route path="/privacy" element={<PrivacyPage />} />
-      <Route path="/terms" element={<TermsPage />} />
-
-      {/* Standalone auth pages (no study layout) */}
-      <Route path="/signin" element={<SignInPage />} />
-      <Route path="/signup" element={<SignUpPage />} />
-      <Route path="/account" element={<AccountPage />} />
-      <Route path="/checkout" element={<CheckoutPage />} />
-
-      {/* Study app */}
       <Route element={<Layout />}>
         <Route path="/" element={<HomePage />} />
         <Route path="/command-words" element={<CommandWordsPage />} />
         <Route path="/references" element={<ReferencesPage />} />
 
-        <Route path="/:moduleId" element={<ModuleHomePage />} />
+        <Route path="/ob" element={<ObHomePage />} />
+        <Route path="/ob/units" element={<ObUnitsPage />} />
+        <Route path="/ob/units/:unitId" element={<ObUnitDetailPage />} />
+        <Route path="/ob/theories" element={<ObTheoriesPage />} />
+        <Route path="/ob/theories/:theoryId" element={<ObTheoryDetailPage />} />
+        <Route path="/ob/case-analyzer" element={<ObCaseAnalyzerPage />} />
+        <Route path="/ob/motivation" element={<MotivationPage />} />
+        <Route path="/ob/leadership" element={<LeadershipPage />} />
+        <Route path="/ob/culture-change" element={<CultureChangePage />} />
+        <Route path="/ob/conflict-power-politics" element={<ConflictPowerPoliticsPage />} />
+        <Route path="/ob/stress-wellbeing" element={<StressWellbeingPage />} />
+        <Route path="/ob/exam-builder" element={<ObExamBuilderPage />} />
+        <Route path="/ob/paragraph-bank" element={<ObParagraphBankPage />} />
+        <Route path="/ob/past-papers" element={<ObPastPapersPage />} />
+        <Route path="/ob/past-papers/:paperId" element={<ObPastPaperDetailPage />} />
+        <Route path="/ob/command-words" element={<ObCommandWordsPage />} />
+        <Route path="/ob/references" element={<ObReferencesPage />} />
+        <Route path="/ob/checklist" element={<ObChecklistPage />} />
 
-        <Route path="/:moduleId/units" element={<UnitsPage />} />
-        <Route path="/:moduleId/units/:unitId" element={<UnitDetailPage />} />
+        <Route path="/:moduleId" element={<ModuleRoute />}>
+          <Route index element={<ModuleHomePage />} />
 
-        <Route path="/:moduleId/theories" element={<TheoriesPage />} />
-        <Route path="/:moduleId/theories/:theoryId" element={<TheoryDetailPage />} />
+          <Route path="units" element={<UnitsPage />} />
+          <Route path="units/:unitId" element={<UnitDetailPage />} />
 
-        <Route path="/:moduleId/concepts" element={<ConceptsPage />} />
-        <Route path="/:moduleId/concepts/:conceptId" element={<ConceptDetailPage />} />
+          <Route path="theories" element={<TheoriesPage />} />
+          <Route path="theories/:theoryId" element={<TheoryDetailPage />} />
 
-        <Route path="/:moduleId/cases" element={<CasesPage />} />
-        <Route path="/:moduleId/cases/:caseId" element={<CaseDetailPage />} />
+          <Route path="concepts" element={<ConceptsPage />} />
+          <Route path="concepts/:conceptId" element={<ConceptDetailPage />} />
 
-        <Route path="/:moduleId/past-papers" element={<PastPapersPage />} />
-        <Route path="/:moduleId/past-papers/:paperId" element={<PastPaperDetailPage />} />
+          <Route path="cases" element={<CasesPage />} />
+          <Route path="cases/:caseId" element={<CaseDetailPage />} />
 
-        <Route path="/:moduleId/exam-builder" element={<ExamBuilderPage />} />
-        <Route path="/:moduleId/paragraph-bank" element={<ParagraphBankPage />} />
-        <Route path="/:moduleId/checklist" element={<ChecklistPage />} />
+          <Route path="past-papers" element={<PastPapersPage />} />
+          <Route path="past-papers/:paperId" element={<PastPaperDetailPage />} />
 
-        <Route path="/:moduleId/formulas" element={<FormulasPage />} />
-        <Route path="/:moduleId/formula-library" element={<FormulaLibraryPage />} />
-        <Route path="/:moduleId/formulas/:formulaId" element={<FormulaDetailPage />} />
+          <Route path="exam-builder" element={<ExamBuilderPage />} />
+          <Route path="paragraph-bank" element={<ParagraphBankPage />} />
+          <Route path="checklist" element={<ChecklistPage />} />
 
-        <Route path="/:moduleId/applied-calculations" element={<AppliedCalculationsPage />} />
-        <Route path="/:moduleId/calculator" element={<CalculatorHubPage />} />
-        <Route path="/:moduleId/calculators" element={<CalculatorHubPage />} />
-        <Route path="/:moduleId/calculators/:formulaId" element={<CalculatorHubPage />} />
+          <Route path="formulas" element={<FormulasPage />} />
+          <Route path="formula-library" element={<FormulaLibraryPage />} />
+          <Route path="formulas/:formulaId" element={<FormulaDetailPage />} />
 
-        <Route path="/:moduleId/question-classifier" element={<QuestionClassifierPage />} />
-        <Route path="/:moduleId/mistake-log" element={<MistakeLogPage />} />
+          <Route path="applied-calculations" element={<AppliedCalculationsPage />} />
+          <Route path="calculator" element={<CalculatorHubPage />} />
+          <Route path="calculators" element={<CalculatorHubPage />} />
+          <Route path="calculators/:formulaId" element={<CalculatorHubPage />} />
 
-        {/* 404 fallback inside the study layout */}
+          <Route path="question-classifier" element={<QuestionClassifierPage />} />
+          <Route path="mistake-log" element={<MistakeLogPage />} />
+        </Route>
+
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>

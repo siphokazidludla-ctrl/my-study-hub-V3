@@ -2,7 +2,7 @@ import type { Unit } from '../types';
 
 // Marketing Management (MM) - 17 units.
 // Structure and subsection headings from the MANCOSA MM Module Guide (2026),
-// prescribed Kotler and Armstrong (2020) and Kotler and Keller (2016).
+// prescribed Kotler and Armstrong (2020) and Kotler and Armstrong (2020).
 // NOTE: No MM past examination papers were uploaded. Assessment weighting is
 // inferred from module-guide learning outcomes only and is labelled as such.
 
@@ -21,7 +21,7 @@ export const MM_UNITS: Unit[] = [
     keyConcepts: ['Needs, wants, demands', 'Exchange & value', 'Production / product / selling / marketing / societal orientations', 'Marketplace vs marketspace'],
     assessmentWeight: 4,
     assessmentNote: 'Inferred high (foundational): marketing orientations and the value concept frame the whole module.',
-    theoryIds: ['mm-orientations', 'mm-customer-value'],
+    theoryIds: ['mm-marketing-concept', 'mm-customer-value'],
     prescribedChapters: 'Kotler and Armstrong (2020), Ch. 1',
   },
   {
@@ -55,7 +55,7 @@ export const MM_UNITS: Unit[] = [
     keyConcepts: ['Marketing Information System (MIS)', 'Macro-environment (PESTEL)', 'Marketing intelligence', 'Data warehouses & data-mining'],
     assessmentWeight: 4,
     assessmentNote: 'Inferred high. PESTEL/macro-environment scanning is a frequent applied question. Strong link to IKM data concepts.',
-    theoryIds: ['mm-pestel', 'mm-mis'],
+    theoryIds: ['mm-environment', 'mm-research'],
     prescribedChapters: 'Kotler and Armstrong (2020), Ch. 3',
   },
   {
@@ -72,7 +72,7 @@ export const MM_UNITS: Unit[] = [
     keyConcepts: ['Marketing research process (6 steps)', 'Primary vs secondary data', 'Marketing metrics / ROI', 'Demand measurement & forecasting'],
     assessmentWeight: 3,
     assessmentNote: 'Inferred medium. The six-step research process is the most examinable structure. Links to OM forecasting (cross-module).',
-    theoryIds: ['mm-research-process'],
+    theoryIds: ['mm-research'],
     prescribedChapters: 'Kotler and Armstrong (2020), Ch. 4',
   },
   {
@@ -89,7 +89,7 @@ export const MM_UNITS: Unit[] = [
     keyConcepts: ['Customer-perceived value', 'Customer satisfaction', 'Customer lifetime value (CLV)', 'Customer relationship management (CRM)', 'Loyalty ladder'],
     assessmentWeight: 5,
     assessmentNote: 'Inferred very high. Customer value, CLV and CRM are central, high-yield applied topics.',
-    theoryIds: ['mm-customer-value', 'mm-clv', 'mm-crm'],
+    theoryIds: ['mm-customer-value', 'mm-customer-value', 'mm-customer-value'],
     prescribedChapters: 'Kotler and Armstrong (2020), Ch. 5',
   },
   {
@@ -106,7 +106,7 @@ export const MM_UNITS: Unit[] = [
     keyConcepts: ['Five-stage buyer decision process', "Maslow's hierarchy of needs", 'Cultural, social, personal, psychological factors', 'B2B buying process', 'Buying roles'],
     assessmentWeight: 5,
     assessmentNote: 'Inferred very high. The five-stage decision process and influences on consumer behaviour are exam staples.',
-    theoryIds: ['mm-buyer-decision', 'mm-consumer-factors'],
+    theoryIds: ['mm-consumer-behaviour', 'mm-consumer-behaviour'],
     prescribedChapters: 'Kotler and Armstrong (2020), Ch. 6',
   },
   {
@@ -122,7 +122,7 @@ export const MM_UNITS: Unit[] = [
     keyConcepts: ['Segmentation bases (geographic, demographic, psychographic, behavioural)', 'Targeting strategies (undifferentiated, differentiated, concentrated, micro)', 'STP process', 'Niche marketing'],
     assessmentWeight: 5,
     assessmentNote: 'Inferred very high. STP (with Unit 8 positioning) is one of the most examinable applied frameworks in marketing.',
-    theoryIds: ['mm-stp', 'mm-segmentation'],
+    theoryIds: ['mm-stp', 'mm-stp'],
     prescribedChapters: 'Kotler and Armstrong (2020), Ch. 7',
   },
   {
@@ -139,7 +139,7 @@ export const MM_UNITS: Unit[] = [
     keyConcepts: ['Brand equity', 'Positioning (the P in STP)', 'Points of parity / points of difference', 'Differentiation strategies', 'Product life cycle (PLC)'],
     assessmentWeight: 5,
     assessmentNote: 'Inferred very high. Positioning completes STP; brand equity and PLC strategies are high-yield. PLC links to OM Unit 5.',
-    theoryIds: ['mm-positioning', 'mm-brand-equity', 'mm-plc'],
+    theoryIds: ['mm-stp', 'mm-branding', 'mm-plc'],
     prescribedChapters: 'Kotler and Armstrong (2020), Ch. 8',
   },
   {
@@ -173,7 +173,7 @@ export const MM_UNITS: Unit[] = [
     keyConcepts: ['Five product levels', 'Consumer vs industrial products', 'Product mix (width, length, depth)', 'Packaging & labelling'],
     assessmentWeight: 4,
     assessmentNote: 'Inferred high. The marketing mix (4Ps/7Ps) is one of the most examinable applied frameworks overall.',
-    theoryIds: ['mm-marketing-mix', 'mm-product-levels'],
+    theoryIds: ['mm-marketing-mix', 'mm-marketing-mix'],
     prescribedChapters: 'Kotler and Armstrong (2020), Ch. 12',
   },
   {
@@ -190,7 +190,7 @@ export const MM_UNITS: Unit[] = [
     keyConcepts: ['Four service characteristics (intangibility, inseparability, variability, perishability)', 'Services marketing mix (7Ps)', 'SERVQUAL / service quality gaps', 'Service-profit chain'],
     assessmentWeight: 4,
     assessmentNote: 'Inferred high and personally relevant (healthcare is a service). SERVQUAL and the 7Ps are high-yield, and link to OM TQM.',
-    theoryIds: ['mm-services', 'mm-servqual', 'mm-marketing-mix'],
+    theoryIds: ['mm-services', 'mm-services', 'mm-marketing-mix'],
     prescribedChapters: 'Kotler and Armstrong (2020), Ch. 13',
   },
   {
@@ -224,7 +224,7 @@ export const MM_UNITS: Unit[] = [
     keyConcepts: ['Marketing channels & levels', 'Channel design & conflict', 'Vertical marketing systems', 'E-commerce & omnichannel', 'Market logistics'],
     assessmentWeight: 3,
     assessmentNote: 'Inferred medium. Channel design and conflict are the most examinable. Strong link to OM supply chain (Unit 9).',
-    theoryIds: ['mm-channels', 'mm-marketing-mix'],
+    theoryIds: ['mm-marketing-mix', 'mm-marketing-mix'],
     prescribedChapters: 'Kotler and Armstrong (2020), Ch. 14-15',
   },
   {
@@ -241,7 +241,7 @@ export const MM_UNITS: Unit[] = [
     keyConcepts: ['Promotion mix (5 tools)', 'Integrated Marketing Communications (IMC)', 'AIDA / communications process', 'Push vs pull strategies', 'Digital & interactive marketing'],
     assessmentWeight: 5,
     assessmentNote: 'Inferred very high. The promotion mix and IMC are heavily examined, with digital marketing a frequent applied angle.',
-    theoryIds: ['mm-imc', 'mm-promotion-mix', 'mm-marketing-mix'],
+    theoryIds: ['mm-imc', 'mm-imc', 'mm-marketing-mix'],
     prescribedChapters: 'Kotler and Armstrong (2020), Ch. 16-17',
   },
   {
@@ -258,7 +258,7 @@ export const MM_UNITS: Unit[] = [
     keyConcepts: ['New-product development (NPD) stages', 'Idea generation to commercialisation', 'Diffusion of innovation / adopter categories', 'NPD failure factors'],
     assessmentWeight: 3,
     assessmentNote: 'Inferred medium. The NPD stage model and adopter categories are the examinable structures. Links to OM Unit 5.',
-    theoryIds: ['mm-npd', 'mm-plc'],
+    theoryIds: ['mm-marketing-mix', 'mm-plc'],
     prescribedChapters: 'Kotler and Armstrong (2020), Ch. 9',
   },
   {

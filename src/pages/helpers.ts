@@ -10,5 +10,5 @@ export function useModule() {
 }
 
 export function moduleLabel(id: ModuleId) {
-  return id === 'ikm' ? 'Information and Knowledge Management' : id === 'om' ? 'Operations Management' : 'Marketing Management';
+  return id === 'ob' ? 'Organisational Behaviour' : id === 'ikm' ? 'Information and Knowledge Management' : id === 'om' ? 'Operations Management' : 'Marketing Management';
 }

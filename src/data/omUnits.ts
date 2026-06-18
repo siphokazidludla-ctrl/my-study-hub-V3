@@ -32,7 +32,7 @@ export const OM_UNITS: Unit[] = [
     keyConcepts: ['Transformation process (input-output)', 'Ten critical OM decisions', 'Productivity (single & multi-factor)', 'Productivity variables', 'Goods vs services'],
     assessmentWeight: 4,
     assessmentNote: 'Inferred high (foundational): the ten critical decisions and productivity measurement underpin the whole module.',
-    theoryIds: ['om-ten-decisions', 'om-productivity'],
+    theoryIds: ['om-operations-strategy', 'om-productivity'],
     prescribedChapters: 'Heizer, Render and Munson (2020), Ch. 1',
   },
   {
@@ -58,7 +58,7 @@ export const OM_UNITS: Unit[] = [
     keyConcepts: ['Mission vs strategy', 'Competitive advantage: differentiation, cost leadership, response', 'Global operations strategies', 'SWOT for operations'],
     assessmentWeight: 4,
     assessmentNote: 'Inferred high: strategy questions reward applied differentiation / cost / response analysis.',
-    theoryIds: ['om-competitive-advantage'],
+    theoryIds: ['om-operations-strategy'],
     prescribedChapters: 'Heizer, Render and Munson (2020), Ch. 2',
   },
   {
@@ -83,7 +83,7 @@ export const OM_UNITS: Unit[] = [
     keyConcepts: ['Deming (PDCA) & quality gurus', 'Seven concepts of TQM', 'Costs of quality (prevention, appraisal, internal/external failure)', 'Seven tools of TQM', 'Six Sigma & continuous improvement'],
     assessmentWeight: 5,
     assessmentNote: 'Inferred very high: TQM, cost of quality and the seven tools are classic essay and applied questions.',
-    theoryIds: ['om-tqm', 'om-cost-of-quality', 'om-seven-tools'],
+    theoryIds: ['om-quality', 'om-quality', 'om-quality'],
     prescribedChapters: 'Heizer, Render and Munson (2020), Ch. 6',
   },
   {
@@ -111,7 +111,7 @@ export const OM_UNITS: Unit[] = [
     keyConcepts: ['Qualitative vs quantitative forecasting', 'Time-series components', 'Moving averages & exponential smoothing', 'Forecast error (MAD)', 'Forecasting time horizons'],
     assessmentWeight: 4,
     assessmentNote: 'Inferred high. Treat as a concept hub first (approaches, horizons, strategic importance); calculations are supplementary.',
-    theoryIds: ['om-forecasting-approaches'],
+    theoryIds: ['om-forecasting'],
     prescribedChapters: 'Heizer, Render and Munson (2020), Ch. 4',
   },
   {
@@ -137,7 +137,7 @@ export const OM_UNITS: Unit[] = [
     keyConcepts: ['Product design process', 'Product life cycle', 'Quality Function Deployment (QFD)', 'Service design / blueprinting', 'Concurrent engineering'],
     assessmentWeight: 3,
     assessmentNote: 'Inferred medium. Strong link to the Marketing Management product life cycle (cross-module).',
-    theoryIds: ['om-product-design'],
+    theoryIds: ['om-design'],
     prescribedChapters: 'Heizer, Render and Munson (2020), Ch. 5',
   },
   {
@@ -162,7 +162,7 @@ export const OM_UNITS: Unit[] = [
     keyConcepts: ['Four process strategies (focus, repetitive, product, mass customisation)', 'Process mapping / flowcharts', 'Lean production & waste (muda)', 'Capacity, utilisation & effective capacity', 'Bottleneck analysis'],
     assessmentWeight: 5,
     assessmentNote: 'Inferred very high. Process Analysis Hub and Capacity Planning Hub map directly here. Strong link to JIT/Lean (Unit 10).',
-    theoryIds: ['om-process-strategy', 'om-lean', 'om-capacity'],
+    theoryIds: ['om-process-strategy', 'om-jit', 'om-capacity'],
     prescribedChapters: 'Heizer, Render and Munson (2020), Ch. 7',
   },
   {
@@ -216,7 +216,7 @@ export const OM_UNITS: Unit[] = [
     keyConcepts: ['Job design & job enlargement/enrichment', 'Self-directed teams', 'Motivation & incentives', 'Ergonomics', 'Labour planning'],
     assessmentWeight: 3,
     assessmentNote: 'Inferred medium. Links strongly to IKM Unit 8 (people) and motivation theory.',
-    theoryIds: ['om-job-design'],
+    theoryIds: ['om-hr-job-design'],
     prescribedChapters: 'Heizer, Render and Munson (2020), Ch. 10',
   },
   {
@@ -243,7 +243,7 @@ export const OM_UNITS: Unit[] = [
     keyConcepts: ['Supply-chain strategies (many suppliers, few, vertical integration, keiretsu)', 'Bullwhip effect', 'Make-or-buy', 'Vendor selection', 'SCOR thinking'],
     assessmentWeight: 4,
     assessmentNote: 'Inferred high. Supply Chain Hub maps here; the bullwhip effect and supply-chain strategy choices are strong essay topics.',
-    theoryIds: ['om-scm', 'om-bullwhip'],
+    theoryIds: ['om-supply-chain', 'om-supply-chain'],
     prescribedChapters: 'Heizer, Render and Munson (2020), Ch. 11',
   },
   {
@@ -294,7 +294,7 @@ export const OM_UNITS: Unit[] = [
     keyConcepts: ['Chase strategy', 'Level strategy', 'Mixed strategy', 'Capacity & demand options', 'Yield/revenue management in services'],
     assessmentWeight: 3,
     assessmentNote: 'Inferred medium. The strategy comparison (chase vs level vs mixed) is the most examinable conceptual angle.',
-    theoryIds: ['om-aggregate'],
+    theoryIds: ['om-aggregate-scheduling'],
     prescribedChapters: 'Heizer, Render and Munson (2020), Ch. 13',
   },
   {

@@ -19,7 +19,6 @@ export default function HomePage() {
 
       <Card title="Subjects" tone="white">
         <div className="grid gap-3">
-          <LinkCard to="/ob" eyebrow="ORB801" title="Organisational Behaviour" text="Behaviour, teams, leadership, culture, change, and exam tools." tags={['Units','Theories','Cases']} />
           {MODULES.map((m)=><LinkCard key={m.id} to={`/${m.id}`} eyebrow={m.code} title={m.name} text={m.description} tags={['Units','Theories','Cases']} />)}
         </div>
       </Card>
