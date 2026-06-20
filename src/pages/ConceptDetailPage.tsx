@@ -4,9 +4,9 @@ import { getTheory, THEORIES } from '../data';
 import { useModule } from './helpers';
 
 export default function ConceptDetailPage() {
-  const { conceptId } = useParams();
+  const { theoryId } = useParams();
   const { id } = useModule();
-  const t = getTheory(conceptId ?? '');
+  const t = getTheory(theoryId ?? '');
   if (!t) return <Card title="Missing concept">Concept not found.</Card>;
   const related = THEORIES.filter((x) => t.relatedTheoryIds.includes(x.id));
   return (
