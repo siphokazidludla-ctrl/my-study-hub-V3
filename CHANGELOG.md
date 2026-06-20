@@ -181,3 +181,27 @@ deleted. New file: `src/ob/data/unitNotes.ts`. Edited: `src/ob/data/index.ts`
 (optional `notes` field + merge) and `src/ob/pages/UnitDetailPage.tsx` (render).
 
 Verified with npm run build (tsc + vite); all 12 keys confirmed in the bundle.
+
+---
+
+# Fix: empty concept cards (Concept not found) — all modules (2026-06-20)
+
+Clicking any concept card (Concept Library → a card) opened a page reading
+"MISSING CONCEPT — Concept not found." This affected IKM, OM and MM (reported
+on OM).
+
+Cause: a route-param name mismatch. The route is defined as
+`concepts/:conceptId` (App.tsx) but `ConceptDetailPage` read `theoryId` from
+useParams(), so the lookup id was always undefined and getTheory() returned
+nothing — even though the underlying theory data was fully present (verified:
+THEORIES has 53 entries; getTheory('om-quality') resolves correctly).
+
+Fix: `src/pages/ConceptDetailPage.tsx` now reads `conceptId` from useParams()
+(one-line change). Concept detail pages now render fully — definition, purpose,
+exam triggers, components, common mistakes, worked + South African examples,
+related concepts and references. Audited all other detail pages (units,
+theories, cases, past-papers, formulas) — their params already matched; this was
+the only mismatch.
+
+Verified with npm run build (tsc + vite) and by loading the OM and IKM concept
+detail pages in a headless browser (now populated, no "not found").
