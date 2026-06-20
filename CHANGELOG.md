@@ -161,3 +161,23 @@ appears on its own module home page, so no content was lost. The "Quick exam hub
 panel now spans full width with a pointer to the Subjects menu.
 
 Verified with npm run build (tsc + vite).
+
+---
+
+# OB unit "start here" notes (2026-06-20)
+
+OB unit pages previously had no introductory notes — they jumped straight to the
+content list, outcomes and theory cards. (OB uses a separate data model and unit
+page under `src/ob/`, so the earlier IKM/OM/MM unit-notes work did not reach it.)
+
+All 12 OB units (u1–u12) now open with a plain-language "Unit notes (start here)"
+panel — introduction, key ideas explained simply with examples, how it links to
+theory, and an outcome → content → theory map table — matching the other modules.
+Grounded in the ORB801 Module Guide (2025) and Jones, George & Hill (2013), with
+OpenStax Principles of Management cited only as supplementary.
+
+Additive only — no OB theory card, hub, unit field or theory link was changed or
+deleted. New file: `src/ob/data/unitNotes.ts`. Edited: `src/ob/data/index.ts`
+(optional `notes` field + merge) and `src/ob/pages/UnitDetailPage.tsx` (render).
+
+Verified with npm run build (tsc + vite); all 12 keys confirmed in the bundle.

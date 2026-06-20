@@ -35,6 +35,70 @@ export default function UnitDetailPage() {
         sub={unit.focus}
       />
 
+      {unit.notes && (
+        <SectionCard title="Unit notes (start here)" tone="white">
+          <div className="space-y-3 text-sm leading-relaxed text-[#43395C]">
+            {unit.notes.introduction.split("\n\n").map((p, i) => (
+              <p key={i}>{p}</p>
+            ))}
+          </div>
+
+          <h3 className="mt-5 text-base font-extrabold text-[#3B1D6E]">Key ideas explained simply</h3>
+          <div className="mt-2 space-y-3">
+            {unit.notes.concepts.map((c) => (
+              <div key={c.concept} className="rounded-lg border border-[#E4DEF1] bg-[#FBFAFE] p-3">
+                <p className="font-bold text-[#241349]">{c.concept}</p>
+                <p className="mt-1 text-sm text-[#43395C]">{c.explanation}</p>
+                <p className="mt-1 text-sm text-[#6B6385]">
+                  <span className="font-semibold">Example: </span>
+                  {c.example}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          <h3 className="mt-5 text-base font-extrabold text-[#3B1D6E]">How it fits together and links to theory</h3>
+          <div className="mt-2 space-y-3 text-sm leading-relaxed text-[#43395C]">
+            {unit.notes.application.split("\n\n").map((p, i) => (
+              <p key={i}>{p}</p>
+            ))}
+          </div>
+
+          {unit.notes.map.length > 0 && (
+            <>
+              <h3 className="mt-5 text-base font-extrabold text-[#3B1D6E]">Outcome → content → theory map</h3>
+              <div className="mt-2 overflow-x-auto">
+                <table className="w-full border-collapse text-left text-sm">
+                  <thead>
+                    <tr className="bg-[#F4F1FA] text-[#3B1D6E]">
+                      <th className="border border-[#E4DEF1] p-2 font-bold">Learning outcome</th>
+                      <th className="border border-[#E4DEF1] p-2 font-bold">Module-guide content</th>
+                      <th className="border border-[#E4DEF1] p-2 font-bold">Theory / framework to use</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {unit.notes.map.map((r, i) => (
+                      <tr key={i} className="align-top">
+                        <td className="border border-[#E4DEF1] p-2">{r.outcome}</td>
+                        <td className="border border-[#E4DEF1] p-2">{r.content}</td>
+                        <td className="border border-[#E4DEF1] p-2">{r.theory}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </>
+          )}
+
+          {unit.notes.sources && unit.notes.sources.length > 0 && (
+            <p className="mt-4 text-xs text-[#6B6385]">
+              <span className="font-semibold">Sources: </span>
+              {unit.notes.sources.join("; ")}
+            </p>
+          )}
+        </SectionCard>
+      )}
+
       <div className="grid gap-4 lg:grid-cols-3">
         <SectionCard title="Quick facts" tone="mist">
           <div className="flex flex-wrap gap-2">

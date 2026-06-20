@@ -87,3 +87,50 @@ OB also has a few extra per-theory fields the shared theory type does not includ
 recommendations). The shared modules cover the same teaching ground through their
 existing fields plus the new bespoke examples; adding those extra OB-only fields
 would require extending the shared `Theory` type and is available on request.
+
+---
+
+# OB Unit Notes — "start here" teaching notes (2026-06-20)
+
+**Problem fixed:** the IKM, OM and MM unit pages already opened with a plain-language
+**"Unit notes (start here)"** panel, but the **OB unit pages had no such notes at all** —
+opening OB Unit 1 jumped straight to the content list, outcomes and theory cards with
+nothing introducing or explaining the unit first. OB uses a **separate data model and a
+separate unit page** (`src/ob/…`), which is why the earlier unit-notes work did not reach it.
+
+**What changed:** all **12 OB units (u1–u12)** now open with the same teaching panel the
+other modules have. For each unit this gives:
+
+- an **Introduction** (2–3 short paragraphs) explaining what the unit is about and why it
+  matters, in language a lay person can follow before touching any theory card;
+- **"Key ideas explained simply"** — each main concept with a one-line plain explanation
+  and a concrete everyday example (4–6 per unit);
+- **"How it fits together and links to theory"** — how to apply the unit and which theory
+  cards to open;
+- an **Outcome → content → theory map** table linking each learning outcome to its
+  module-guide section and the framework to use;
+- a **Sources** line (primary: ORB801 Module Guide 2025 + Jones, George & Hill 2013;
+  supplementary, labelled: OpenStax *Principles of Management*).
+
+**Grounding / sources rule:** notes are built on each unit's own `contentList` and
+`outcomes` from the ORB801 Module Guide (the primary source) and the prescribed Jones,
+George & Hill textbook. OpenStax *Principles of Management* (latest open edition) is cited
+only as **supplementary** support, never as the primary authority — matching your brief.
+
+**Files added or edited (no deletions):**
+- `src/ob/data/unitNotes.ts` — **new** file with the 12 units' notes and the `UnitNotes`
+  type (mirrors the shared modules' note structure exactly).
+- `src/ob/data/index.ts` — added the optional `notes?` field to `UnitInfo`, imported the
+  notes, and merged them onto the units array (additive `map`; a unit with no entry is
+  returned unchanged — the original `units` literal was renamed `rawUnits`).
+- `src/ob/pages/UnitDetailPage.tsx` — renders the new "Unit notes (start here)" panel above
+  the quick-facts grid, styled with the OB module's own components/colours.
+
+**Untouched:** every existing OB theory card, hub, unit field, outcome and theory link is
+exactly as before — this only **adds** the intro notes. The theory hubs were not deleted.
+
+**Verified:** `npm run build` passes (TypeScript compile + Vite). Confirmed all 12 unit
+keys (u1–u12) are present and that the new notes compiled into the production bundle.
+
+**Where to see it:** open **OB → Units → any unit** (e.g. Unit 1: The Nature of Management).
+The "Unit notes (start here)" panel now appears first, before the content list and theory cards.

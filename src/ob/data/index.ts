@@ -5,6 +5,10 @@
    (2013) Contemporary Management, 8th ed., Boston: McGraw Hill.
    ============================================================================ */
 
+import { OB_UNIT_NOTES } from "./unitNotes";
+import type { UnitNotes } from "./unitNotes";
+export type { UnitNotes } from "./unitNotes";
+
 export type Theory = {
   id: string;
   name: string;
@@ -43,6 +47,7 @@ export type UnitInfo = {
   textbookChapter: string;
   theoryIds: string[];
   hubId?: string;
+  notes?: UnitNotes;
 };
 
 export type Hub = {
@@ -1963,7 +1968,7 @@ export const theories: Theory[] = [
   },
 ];
 
-export const units: UnitInfo[] = [
+const rawUnits: UnitInfo[] = [
   {
     id: "u1",
     code: "Unit 1",
@@ -2269,6 +2274,12 @@ export const units: UnitInfo[] = [
     hubId: "change",
   },
 ];
+
+/* Merge the plain-language unit notes (from ./unitNotes) onto each unit.
+   Additive only: a unit without a notes entry is returned unchanged. */
+export const units: UnitInfo[] = rawUnits.map((u) =>
+  OB_UNIT_NOTES[u.id] ? { ...u, notes: OB_UNIT_NOTES[u.id] } : u
+);
 
 export const hubs: Hub[] = [
   {
